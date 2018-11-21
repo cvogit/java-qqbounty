@@ -29,7 +29,7 @@ public class User {
 	
 	@NotNull
 	@Column(nullable=false)
-	private String userpassword;
+	private String password;
 
 
 	@NotNull
@@ -46,7 +46,7 @@ public class User {
 	private int walletid;
 	
 	@NotNull
-	private int userroleid;
+	private int roleid;
 	
 	
 	public User() {
@@ -57,16 +57,16 @@ public class User {
 
 	public User(int userid, @NotNull @Size(min = 4, max = 12) String username, @NotNull String userpassword,
 			@NotNull String email, String picture, @NotNull int rating, @NotNull int walletid,
-			@NotNull int userroleid) {
+			@NotNull int roleid) {
 		super();
 		this.userid = userid;
 		this.username = username;
-		this.userpassword = userpassword;
+		this.password = userpassword;
 		this.email = email;
 		this.picture = picture;
 		this.rating = rating;
 		this.walletid = walletid;
-		this.userroleid = userroleid;
+		this.roleid = roleid;
 	}
 
 
@@ -91,12 +91,12 @@ public class User {
 
 
 	public String getUserpassword() {
-		return userpassword;
+		return password;
 	}
 
 
-	public void setUserpassword(String userpassword) {
-		this.userpassword = userpassword;
+	public void setUserpassword(String password) {
+		this.password = password;
 	}
 
 
@@ -141,12 +141,12 @@ public class User {
 
 
 	public int getUserroleid() {
-		return userroleid;
+		return roleid;
 	}
 
 
-	public void setUserroleid(int userroleid) {
-		this.userroleid = userroleid;
+	public void setUserroleid(int roleid) {
+		this.roleid = roleid;
 	}
 
 

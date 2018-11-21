@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @Configuration
 @SpringBootApplication
-public class LeagueApiApplication {
+public class QQBountyApiApplication {
 
 	@Bean
 	public Docket api() {
@@ -23,7 +23,7 @@ public class LeagueApiApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(LeagueApiApplication.class, args);
+		SpringApplication.run(QQBountyApiApplication.class, args);
 	}
 
 }

@@ -55,13 +55,13 @@ public class User {
 	}
 
 
-	public User(int userid, @NotNull @Size(min = 4, max = 12) String username, @NotNull String userpassword,
+	public User(int userid, @NotNull @Size(min = 4, max = 12) String username, @NotNull String password,
 			@NotNull String email, String picture, @NotNull int rating, @NotNull int walletid,
 			@NotNull int roleid) {
 		super();
 		this.userid = userid;
 		this.username = username;
-		this.password = userpassword;
+		this.password = password;
 		this.email = email;
 		this.picture = picture;
 		this.rating = rating;

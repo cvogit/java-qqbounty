@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userid;
+	private int user_id;
 
 	@NotNull
 	@Size(min=4, max=12)
@@ -30,7 +30,6 @@ public class User {
 	@NotNull
 	@Column(nullable=false)
 	private String password;
-
 
 	@NotNull
 	@Column
@@ -43,10 +42,10 @@ public class User {
 	private int rating;
 	
 	@NotNull
-	private int walletid;
+	private int wallet_id;
 	
 	@NotNull
-	private int roleid;
+	private int role_id;
 	
 	
 	public User() {
@@ -55,28 +54,28 @@ public class User {
 	}
 
 
-	public User(int userid, @NotNull @Size(min = 4, max = 12) String username, @NotNull String userpassword,
-			@NotNull String email, String picture, @NotNull int rating, @NotNull int walletid,
-			@NotNull int roleid) {
+	public User(int user_id, @NotNull @Size(min = 4, max = 12) String username, @NotNull String password,
+			@NotNull String email, String picture, @NotNull int rating, @NotNull int wallet_id,
+			@NotNull int role_id) {
 		super();
-		this.userid = userid;
+		this.user_id = user_id;
 		this.username = username;
-		this.password = userpassword;
+		this.password = password;
 		this.email = email;
 		this.picture = picture;
 		this.rating = rating;
-		this.walletid = walletid;
-		this.roleid = roleid;
+		this.wallet_id = wallet_id;
+		this.role_id = role_id;
 	}
 
 
 	public int getUserId() {
-		return userid;
+		return user_id;
 	}
 
 
-	public void setUserId(int userid) {
-		this.userid = userid;
+	public void setUserId(int user_id) {
+		this.user_id = user_id;
 	}
 
 
@@ -131,27 +130,22 @@ public class User {
 
 
 	public int getWalletid() {
-		return walletid;
+		return wallet_id;
 	}
 
 
-	public void setWalletid(int walletid) {
-		this.walletid = walletid;
+	public void setWalletid(int wallet_id) {
+		this.wallet_id = wallet_id;
 	}
 
 
 	public int getUserroleid() {
-		return roleid;
+		return role_id;
 	}
 
 
-	public void setUserroleid(int roleid) {
-		this.roleid = roleid;
+	public void setUserroleid(int role_id) {
+		this.role_id = role_id;
 	}
-
-
-		
-
-	
 
 }

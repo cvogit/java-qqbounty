@@ -89,17 +89,49 @@ VALUES('pluto', 'goldmine', 'pluto@mail.com', '', 5, 1, 1);
 
 INSERT INTO qqbounty.bountystatus
 (bounty_status_id, status)
-VALUES(2, 'frozen');
+VALUES (1, 'open'),(2, 'frozen');
 
 --initialize subjects table
 INSERT INTO qqbounty.subjects
 (subject_id, subject_type)
+VALUES(1, 'math');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(2, 'physics');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(3, 'economics');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(4, 'politics');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(5, 'chemisty');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(6, 'cryptography');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(7, 'software');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
+VALUES(8, 'hardware');
+INSERT INTO qqbounty.subjects
+(subject_id, subject_type)
 VALUES(9, 'philosophy');
+
 
 --initialize answer status 
 INSERT INTO qqbounty.answerstatus
 (status_id, "name")
+VALUES(1, 'review');
+INSERT INTO qqbounty.answerstatus
+(status_id, "name")
+VALUES(2, 'reject');
+INSERT INTO qqbounty.answerstatus
+(status_id, "name")
 VALUES(3, 'approve');
+
 
 --initialize answer table
 INSERT INTO qqbounty.answers

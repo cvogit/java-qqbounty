@@ -13,6 +13,5 @@ public interface BountyRepo extends JpaRepository<Bounty, Integer> {
 
 		Bounty save(Bounty pBounty);
 		List<Bounty> findAll();
-
 	
 }

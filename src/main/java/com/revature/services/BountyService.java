@@ -21,7 +21,7 @@ public class BountyService {
 	public Bounty findById(int id) {
 		return bountyRepo.getOne(id);
 	}
-
+	
 	public Bounty save(Bounty bounty) {
 		return bountyRepo.save(bounty);
 	}

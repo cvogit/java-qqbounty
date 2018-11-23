@@ -236,7 +236,5 @@ public class Bounty {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

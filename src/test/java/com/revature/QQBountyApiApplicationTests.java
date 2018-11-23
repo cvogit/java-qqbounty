@@ -1,16 +1,26 @@
 package com.revature;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import org.junit.Test;
+
+import com.revature.model.Bounty;
+
 public class QQBountyApiApplicationTests {
 
+	//demo test case for bounty model
 	@Test
-	public void contextLoads() {
+	public void bountyTest()  {
+	        //  create mock
+	        Bounty test = mock(Bounty.class);
+
+	        // define return value for method getUniqueId()
+	        when(test.getBounty_id()).thenReturn(42);
+
+	        // use mock in test....
+	        assertEquals(test.getBounty_id(), 42);
 	}
 
 }

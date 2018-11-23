@@ -1,8 +1,6 @@
 package com.revature.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -18,39 +16,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.User;
 import com.revature.services.UserService;
+import com.revature.services.WalletService;
+import com.revature.util.ResponseMap;
 
 @RestController
 @RequestMapping(path = "users")
 public class UserController {
 
 	@Autowired
-	private UserService us;
+	private UserService sUserService;
+	
+//	@Autowired
+//	private ResponseMap sResponseMap;
 
 	@PostMapping
 	public User save(@RequestBody User pUser) {
-		return us.save(pUser);
+		return sUserService.save(pUser);
 	}
 	
 	
 	@GetMapping
 	@ResponseBody
-	public Map<String, Object> findAll() {
-		// Fetch user list
-		List<User> tUserList = us.findAll();
+	public List<User> findAll() {
+		return sUserService.findAll();
 		
-		// Create map object
-		Map<String, Object> tJsonMap = new HashMap<>();
-		tJsonMap.put("result", tUserList);
-		return tJsonMap;
+//		// Set response map fields
+//		sResponseMap.setMessage("Success");
+//		sResponseMap.setResult(tUserList);
+//		return sResponseMap.getResponse();
 	}
 
 	@GetMapping("{id}")
 	public User findById(@PathVariable int id) {
-		return us.findById(id);
+		return sUserService.findById(id);
 	}
 
 	@PutMapping
 	public User update(@Valid @RequestBody User user) {
-		return us.save(user);
+		return sUserService.save(user);
 	}
 }

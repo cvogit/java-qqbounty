@@ -19,7 +19,7 @@ CREATE TABLE Roles
 	role 	 	VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE Wallet
+CREATE TABLE Wallets
 (
 	wallet_id		SERIAL     PRIMARY KEY,
 	balance			INTEGER 	NOT NULL DEFAULT 0
@@ -33,7 +33,7 @@ CREATE TABLE Users
 	email      		VARCHAR (150) 	NOT NULL UNIQUE,
 	picture	   		VARCHAR (150),
 	rating	   		NUMERIC			NOT NULL DEFAULT 0,
-	wallet_id 	   	INTEGER			NOT NULL REFERENCES Wallet (wallet_id),
+	wallet_id 	   	INTEGER			NOT NULL REFERENCES Wallets (wallet_id),
 	role_id 		INTEGER 		NOT NULL REFERENCES Roles (role_id)
 );
 

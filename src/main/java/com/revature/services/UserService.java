@@ -12,18 +12,24 @@ import com.revature.repos.UserRepo;
 public class UserService {
 
 	@Autowired
-	private UserRepo userRepo;
+	private UserRepo sUserRepo;
+	
+	@Autowired
+	private WalletService sWalletService;
 
 	public List<User> findAll() {
-		return userRepo.findAll();
+		return sUserRepo.findAll();
 	}
 
-	public User findById(int id) {
-		return userRepo.getOne(id);
+	public User findById(int pId) {
+		return sUserRepo.getOne(pId);
 	}
 
-	public User save(User user) {
-		return userRepo.save(user);
-	}
+	public User save(User pUser) {
+		pUser.setWallet_id(sWalletService.newWallet().getWallet_id());
+		pUser.setRole_id(1);
+		pUser.setRating(0);
 
+		return sUserRepo.save(pUser);
+	}
 }

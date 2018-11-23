@@ -63,3 +63,7 @@ CREATE TABLE Bounties
 	user_id 		 	INTEGER 		NOT NULL REFERENCES Users (user_id),
 	subject_id			INTEGER			NOT NULL REFERENCES Subjects (subject_id)
 );
+
+INSERT INTO qqbounty.roles
+(role_id, role)
+VALUES(1, 'user');

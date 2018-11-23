@@ -19,7 +19,7 @@ CREATE TABLE Roles
     role 		VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE Wallet
+CREATE TABLE Wallets
 (
     wallet_id		SERIAL     PRIMARY KEY,
     balance			INTEGER    NOT NULL DEFAULT 0
@@ -27,9 +27,9 @@ CREATE TABLE Wallet
 
 CREATE TABLE Users
 (
-    user_id    	 	SERIAL        	PRIMARY KEY,
-    username   		VARCHAR (50)  	NOT NULL UNIQUE,
-    password   		VARCHAR (50)  	NOT NULL,
+	user_id    	 	SERIAL        	PRIMARY KEY,
+	username   		VARCHAR (50)  	NOT NULL UNIQUE,
+	password   		VARCHAR (50)  	NOT NULL,
 	email      		VARCHAR (150) 	NOT NULL UNIQUE,
 	picture	   		VARCHAR (150),
 	rating	   		NUMERIC			NOT NULL DEFAULT 0,
@@ -39,7 +39,7 @@ CREATE TABLE Users
 
 CREATE TABLE BountyStatus
 (
-    bounty_status_id 	NUMERIC     	PRIMARY KEY,
+	bounty_status_id 	NUMERIC     	PRIMARY KEY,
 	bounty_status    	VARCHAR(20) 	NOT NULL
 );
 
@@ -51,13 +51,13 @@ CREATE TABLE Subjects
 
 CREATE TABLE Bounties
 (
-    bounty_id  			SERIAL 		    PRIMARY KEY,
-    description 		VARCHAR(511)	NOT NULL, 
-    submitted   		TIMESTAMP,
-    amount 	    		INTEGER			NOT NULL DEFAULT 0,
-    votes 				INTEGER 		NOT NULL DEFAULT 0,
-    timer	 			INTEGER			NOT NULL,
-    status_id 			INTEGER 		NOT NULL REFERENCES BountyStatus (bounty_status_id),
+	bounty_id  			SERIAL 		    PRIMARY KEY,
+	description 		VARCHAR(511)	NOT NULL, 
+	submitted   		TIMESTAMP,
+	amount 	    		INTEGER			NOT NULL DEFAULT 0,
+	votes 				INTEGER 		NOT NULL DEFAULT 0,
+	timer	 			INTEGER			NOT NULL,
+	status_id 			INTEGER 		NOT NULL REFERENCES BountyStatus (bounty_status_id),
 	answer_id 			INTEGER	    	REFERENCES 	Answers (answer_id),
 	picture 			VARCHAR (150), 
 	user_id 		 	INTEGER 		NOT NULL REFERENCES Users (user_id),

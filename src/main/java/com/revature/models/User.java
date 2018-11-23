@@ -1,4 +1,4 @@
-package com.revature.model;
+package com.revature.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +10,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.lang.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -20,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userid;
+	private int user_id;
 
 	@NotNull
 	@Size(min=4, max=12)
@@ -33,20 +31,20 @@ public class User {
 
 
 	@NotNull
-	@Column
+	@Column(nullable=false)
 	private String email;
 	
-	@Nullable
+	@Column(nullable=true)
 	private String picture;
 	
-	@NotNull
+	@Column(nullable=false)
 	private int rating;
 	
-	@NotNull
-	private int walletid;
+	@Column(nullable=false)
+	private int wallet_id;
 	
-	@NotNull
-	private int roleid;
+	@Column(nullable=false)
+	private int role_id;
 	
 	
 	public User() {
@@ -55,28 +53,27 @@ public class User {
 	}
 
 
-	public User(int userid, @NotNull @Size(min = 4, max = 12) String username, @NotNull String password,
-			@NotNull String email, String picture, @NotNull int rating, @NotNull int walletid,
-			@NotNull int roleid) {
+	public User(int user_id, @NotNull @Size(min = 4, max = 12) String username, @NotNull String password,
+			@NotNull String email, String picture, int rating, int wallet_id, int role_id) {
 		super();
-		this.userid = userid;
+		this.user_id = user_id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.picture = picture;
 		this.rating = rating;
-		this.walletid = walletid;
-		this.roleid = roleid;
+		this.wallet_id = wallet_id;
+		this.role_id = role_id;
 	}
 
 
-	public int getUserId() {
-		return userid;
+	public int getUser_id() {
+		return user_id;
 	}
 
 
-	public void setUserId(int userid) {
-		this.userid = userid;
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
 
 
@@ -90,12 +87,12 @@ public class User {
 	}
 
 
-	public String getUserpassword() {
+	public String getPassword() {
 		return password;
 	}
 
 
-	public void setUserpassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -130,28 +127,30 @@ public class User {
 	}
 
 
-	public int getWalletid() {
-		return walletid;
+	public int getWallet_id() {
+		return wallet_id;
 	}
 
 
-	public void setWalletid(int walletid) {
-		this.walletid = walletid;
+	public void setWallet_id(int wallet_id) {
+		this.wallet_id = wallet_id;
 	}
 
 
-	public int getUserroleid() {
-		return roleid;
+	public int getRole_id() {
+		return role_id;
 	}
 
 
-	public void setUserroleid(int roleid) {
-		this.roleid = roleid;
+	public void setRole_id(int role_id) {
+		this.role_id = role_id;
 	}
 
 
-		
-
-	
-
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", picture=" + picture + ", rating=" + rating + ", wallet_id=" + wallet_id + ", role_id=" + role_id
+				+ "]";
+	}
 }

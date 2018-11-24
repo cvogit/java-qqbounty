@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.models.Bounty;
 import com.revature.services.BountyService;
 
-
 	@RestController
 	@RequestMapping(path = "bounties")
 	public class BountyController {
@@ -45,4 +44,3 @@ import com.revature.services.BountyService;
 			return bs.save(bounty);
 		}
 	}
-

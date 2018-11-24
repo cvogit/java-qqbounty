@@ -81,3 +81,31 @@ CREATE TABLE Bounties
 INSERT INTO qqbounty.roles
 (role_id, role)
 VALUES(1, 'user');
+
+
+INSERT INTO qqbounty.bountystatus
+(bounty_status_id , bounty_status)
+VALUES(1, 'posted');
+VALUES(2, 'answered');
+
+INSERT INTO qqbounty.subjects
+(subject_id , subject)
+VALUES(1, 'Math');
+VALUES(2, 'Programming');
+
+INSERT INTO qqbounty.roles
+(role_id, role)
+VALUES(1, 'user');
+
+
+INSERT INTO qqbounty.answerstatus
+(answer_status_id,answer_status )
+VALUES(0, 'No correct answer');
+VALUES(1, 'submitted');
+VALUES(2, 'correct');
+VALUES(3, 'wrong');
+
+INSERT INTO qqbounty.answers
+(answer_id, description,submitted,votes,status_id)
+VALUES(0, 'No answer given yet',CURRENT_TIMESTAMP,0,0);
+

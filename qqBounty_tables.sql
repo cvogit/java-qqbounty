@@ -29,7 +29,7 @@ CREATE TABLE Users
 (
     user_id    	 	SERIAL        	PRIMARY KEY,
     username   		VARCHAR (50)  	NOT NULL UNIQUE,
-    password   		VARCHAR (50)  	NOT NULL,
+    password   		VARCHAR (64)  	NOT NULL,
 	email      		VARCHAR (150) 	NOT NULL UNIQUE,
 	picture	   		VARCHAR (150),
 	rating	   		NUMERIC			NOT NULL DEFAULT 0,

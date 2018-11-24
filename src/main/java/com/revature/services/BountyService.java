@@ -34,7 +34,7 @@ public class BountyService {
          *    "status_id": 1,           optional, auto  sets to one
          *    "subject_id": 1,          NEED TO MODIFY, only takes in one subject right now, no junction table yet
          *    "timer": 0,               any-int
-         *     "user_id": 1,            valid user id
+         *    "user_id": 1,            valid user id
          *    "votes": 0                optional, auto sets to 0
          * }
 		 */

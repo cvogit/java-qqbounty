@@ -1,0 +1,53 @@
+package com.revature.services;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.revature.models.Bounty;
+import com.revature.repos.BountyRepo;
+@Service
+public class BountyService {
+		@Autowired
+		private BountyRepo sBountyRepo;
+		
+
+		public List<Bounty> findAll() {
+			return sBountyRepo.findAll();
+		}
+
+		
+		
+		/*  EXAMPLE SAVE REQUEST
+		 * {
+         *   "amount": 150, 	     	any-amount
+         *   "bounty_id": 0, 			optional, auto-generates
+         *   "description": "string",   any-string
+         *   "picture": "string",       any-string
+         *    "submitted": 0,           optional, auto sets to current date
+         *    "status_id": 1,           optional, auto  sets to one
+         *    "subject_id": 1,          NEED TO MODIFY, only takes in one subject right now, no junction table yet
+         *    "timer": 0,               any-int
+         *     "user_id": 1,            valid user id
+         *    "votes": 0                optional, auto sets to 0
+         * }
+		 */
+		public Bounty save(Bounty pBounty) {
+
+			pBounty.setSubmitted(new Timestamp(System.currentTimeMillis()));
+			pBounty.setVotes(0);
+			pBounty.setStatus_id(1);
+			
+		
+			return sBountyRepo.save(pBounty);
+		}
+		
+		
+		public Bounty getOne(int id) {
+			return sBountyRepo.getOne(id);
+		}
+		
+
+}

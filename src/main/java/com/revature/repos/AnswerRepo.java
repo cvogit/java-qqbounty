@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.revature.models.Bounty;
+import com.revature.models.Answer;
 
 @Repository
-public interface BountyRepo extends JpaRepository<Bounty, Integer> {
+public interface AnswerRepo extends  JpaRepository<Answer, Integer>{
 
 	@SuppressWarnings("unchecked")
-	Bounty save(Bounty pBounty);
+	Answer save(Answer answer);
 	
-	List<Bounty> findAll();
+	List<Answer> findAll();
 
-	Bounty getOne(Integer id);
-
+	Answer getOne(Integer id);
+	
 }

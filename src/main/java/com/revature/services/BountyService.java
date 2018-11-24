@@ -27,15 +27,14 @@ public class BountyService {
   /*  EXAMPLE SAVE REQUEST
 		 * {
          *   "amount": 150, 	     	any-amount
-         *   "bounty_id": 0, 			optional, auto-generates
          *   "description": "string",   any-string
          *   "picture": "string",       any-string
          *    "submitted": 0,           optional, auto sets to current date
-         *    "status_id": 1,           optional, auto  sets to one
+         *    "status_id": 1,           Set to one
          *    "subject_id": 1,          NEED TO MODIFY, only takes in one subject right now, no junction table yet
          *    "timer": 0,               any-int
-         *     "user_id": 1,            valid user id
-         *    "votes": 0                optional, auto sets to 0
+         *    "user_id": 1,            valid user id
+         *    "votes": 0                Set to 0
          * }
 		 */
 	//set Timestamp upon new bounty creation

@@ -24,8 +24,8 @@ CREATE TABLE Answers
 
 CREATE TABLE Roles
 (
-    role_id 	NUMERIC     PRIMARY KEY,
-    role 		VARCHAR(10) NOT NULL
+    role_id 		NUMERIC     PRIMARY KEY,
+    role 			VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE Wallets
@@ -54,8 +54,8 @@ CREATE TABLE BountyStatus
 
 CREATE TABLE Subjects
 (
-    subject_id 		NUMERIC     PRIMARY KEY,
-	subject   		VARCHAR(20) 	NOT NULL
+    subject_id		NUMERIC			PRIMARY KEY,
+	subject   		VARCHAR(20)		NOT NULL
 );
 
 CREATE TABLE Bounties

@@ -18,7 +18,7 @@ CREATE TABLE Answers
     answer_id  		SERIAL 		    PRIMARY KEY,
     description 	VARCHAR(511)	NOT NULL, 
     submitted   	TIMESTAMP 	    NOT NULL,
-    votes 			  INTEGER 	    NOT NULL DEFAULT 0,
+    votes			INTEGER 	    NOT NULL DEFAULT 0,
     status_id 		INTEGER 	    NOT NULL REFERENCES AnswerStatus (answer_status_id)		
 );
 
@@ -36,14 +36,14 @@ CREATE TABLE Wallets
 
 CREATE TABLE Users
 (
-  user_id    	 	SERIAL        	PRIMARY KEY,
-  username   		VARCHAR (50)  	NOT NULL UNIQUE,
-  password   		VARCHAR (64)  	NOT NULL,
+	user_id    	 	SERIAL        	PRIMARY KEY,
+	username   		VARCHAR (50)  	NOT NULL UNIQUE,
+	password   		VARCHAR (64)  	NOT NULL,
 	email      		VARCHAR (150) 	NOT NULL UNIQUE,
 	picture	   		VARCHAR (150),
 	rating	   		NUMERIC			NOT NULL DEFAULT 0,
-	wallet_id 	  INTEGER			NOT NULL REFERENCES Wallets (wallet_id),
-	role_id 		  INTEGER 		NOT NULL REFERENCES Roles (role_id)
+	wallet_id		INTEGER			NOT NULL REFERENCES Wallets (wallet_id),
+	role_id			INTEGER 		NOT NULL REFERENCES Roles (role_id)
 );
 
 CREATE TABLE BountyStatus

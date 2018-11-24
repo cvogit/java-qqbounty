@@ -10,8 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.validation.constraints.Size;
 
+import org.springframework.lang.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -21,37 +24,38 @@ public class Bounty {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bounty_id;
-
+	
 	@NotNull
-	@Column(nullable=false)
+	@Column
 	private String description;
 	
-	@Column(nullable=true)
+	//Timestamp is generated via a utility, leave null on API call
+	@Nullable
 	private Timestamp submitted;
 	
-
-	@Column(nullable=false)
+	@NotNull
 	private int amount;
 	
-	@Column(nullable=false)
+	@NotNull
 	private int votes;
 	
-	@Column(nullable=false)
+	@NotNull
 	private int timer;
 	
-	@Column(nullable=false)
+	@NotNull
 	private int status_id;
 	
-	@Column(nullable=false)
+	//Default all answers to answer_id until a correct answer is chosen
+	@Nullable
 	private int answer_id;
 	
-	@Column(nullable=true)
+	@Nullable
 	private String picture;
 	
-	@Column(nullable=false)
+	@NotNull
 	private int user_id;
 	
-	@Column(nullable=false)
+	@NotNull
 	private int subject_id;
 
 	public Bounty() {
@@ -90,7 +94,7 @@ public class Bounty {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+  
 	public Timestamp getSubmitted() {
 		return submitted;
 	}
@@ -223,6 +227,7 @@ public class Bounty {
 			return false;
 		return true;
 	}
+
 
 	@Override
 	public String toString() {

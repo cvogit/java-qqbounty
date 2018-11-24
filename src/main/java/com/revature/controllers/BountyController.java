@@ -11,42 +11,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Bounty;
 import com.revature.services.BountyService;
-import com.revature.util.ResponseMap;
 
-@RestController
-@RequestMapping(path = "bounties")
-public class BountyController {
-	@Autowired
-	private BountyService sBountyService;
-	
-	@Autowired
-	private ResponseMap sResponseMap;
+	@RestController
+	@RequestMapping(path = "bounties")
+	public class BountyController {
 
-	@PostMapping
-	public Bounty save(@RequestBody Bounty pBounty) {
-		return sBountyService.save(pBounty);
-	}
-	
-	
-	@GetMapping
-	@ResponseBody
-	public List<Bounty> findAll() {
-		return sBountyService.findAll();
+		@Autowired
+		private BountyService bs;
+
+		@PostMapping
+		public Bounty save(@RequestBody Bounty pBounty) {
+			return bs.save(pBounty);
+		}
 		
-//		// Set response map fields
-//		sResponseMap.setMessage("Success");
-//		sResponseMap.setResult(tUserList);
-//		return sResponseMap.getResponse();
-	}
+		
+		@GetMapping
+		public List<Bounty> findAll() {
+			return bs.findAll();
+		}
 
-	@GetMapping("{id}")
-	public Bounty findById(@PathVariable int id) {
-		return sBountyService.getOne(id);
-	}
+		@GetMapping("{id}")
+		public Bounty findById(@PathVariable int id) {
+			return bs.findById(id);
+		}
 
-}
+		@PutMapping
+		public Bounty update(@Valid @RequestBody Bounty bounty) {
+			return bs.save(bounty);
+		}
+	}

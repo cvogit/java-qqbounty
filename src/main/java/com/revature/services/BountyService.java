@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +7,24 @@ import org.springframework.stereotype.Service;
 
 import com.revature.models.Bounty;
 import com.revature.repos.BountyRepo;
+import com.revature.util.TsUtil;
+
 @Service
 public class BountyService {
-		@Autowired
-		private BountyRepo sBountyRepo;
-		
 
-		public List<Bounty> findAll() {
-			return sBountyRepo.findAll();
-		}
+	@Autowired
+	private BountyRepo bountyRepo;
 
-		
-		
-		/*  EXAMPLE SAVE REQUEST
+	public List<Bounty> findAll() {
+		return bountyRepo.findAll();
+	}
+
+	public Bounty findById(int id) {
+		return bountyRepo.getOne(id);
+	}
+	
+  
+  /*  EXAMPLE SAVE REQUEST
 		 * {
          *   "amount": 150, 	     	any-amount
          *   "bounty_id": 0, 			optional, auto-generates
@@ -34,20 +38,11 @@ public class BountyService {
          *    "votes": 0                optional, auto sets to 0
          * }
 		 */
-		public Bounty save(Bounty pBounty) {
-
-			pBounty.setSubmitted(new Timestamp(System.currentTimeMillis()));
-			pBounty.setVotes(0);
-			pBounty.setStatus_id(1);
-			
-		
-			return sBountyRepo.save(pBounty);
-		}
-		
-		
-		public Bounty getOne(int id) {
-			return sBountyRepo.getOne(id);
-		}
-		
-
+	//set Timestamp upon new bounty creation
+	public Bounty save(Bounty bounty) {
+		bounty.setSubmitted(TsUtil.stampIt());
+		return bountyRepo.save(bounty);
+	}
+	
 }
+

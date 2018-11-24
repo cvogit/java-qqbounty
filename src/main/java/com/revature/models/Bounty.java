@@ -42,14 +42,14 @@ public class Bounty {
 	private int timer;
 	
 	@NotNull
-	private int bounty_status_id;
+	private int status_id;
 	
 	//Default all answers to answer_id until a correct answer is chosen
 	@Nullable
-	private int correct_answer;
+	private int answer_id;
 	
 	@Nullable
-	private String bounty_picture;
+	private String picture;
 	
 	@NotNull
 	private int user_id;
@@ -64,7 +64,7 @@ public class Bounty {
 	}
 
 	public Bounty(int bounty_id, String description, Timestamp submitted, int amount, int votes, int timer,
-			int bounty_status_id, int correct_answer, String bounty_picture, int user_id, int subject_id) {
+			int status_id, int answer_id, String picture, int user_id, int subject_id) {
 		super();
 		this.bounty_id = bounty_id;
 		this.description = description;
@@ -72,9 +72,9 @@ public class Bounty {
 		this.amount = amount;
 		this.votes = votes;
 		this.timer = timer;
-		this.bounty_status_id = bounty_status_id;
-		this.correct_answer = correct_answer;
-		this.bounty_picture = bounty_picture;
+		this.status_id = status_id;
+		this.answer_id = answer_id;
+		this.picture = picture;
 		this.user_id = user_id;
 		this.subject_id = subject_id;
 	}
@@ -127,28 +127,28 @@ public class Bounty {
 		this.timer = timer;
 	}
 
-	public int getBounty_status_id() {
-		return bounty_status_id;
+	public int getStatus_id() {
+		return status_id;
 	}
 
-	public void setBounty_status_id(int bounty_status_id) {
-		this.bounty_status_id = bounty_status_id;
+	public void setStatus_id(int status_id) {
+		this.status_id = status_id;
 	}
 
-	public int getCorrect_answer() {
-		return correct_answer;
+	public int getAnswer_id() {
+		return answer_id;
 	}
 
-	public void setCorrect_answer(int correct_answer) {
-		this.correct_answer = correct_answer;
+	public void setAnswer_id(int answer_id) {
+		this.answer_id = answer_id;
 	}
 
-	public String getBounty_picture() {
-		return bounty_picture;
+	public String getPicture() {
+		return picture;
 	}
 
-	public void setBounty_picture(String bounty_picture) {
-		this.bounty_picture = bounty_picture;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	public int getUser_id() {
@@ -170,8 +170,8 @@ public class Bounty {
 	@Override
 	public String toString() {
 		return "Bounty [bounty_id=" + bounty_id + ", description=" + description + ", sumbitted=" + submitted
-				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", bounty_status_id="
-				+ bounty_status_id + ", correct_answer=" + correct_answer + ", bounty_picture=" + bounty_picture
+				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", status_id="
+				+ status_id + ", answer_id=" + answer_id + ", picture=" + picture
 				+ ", user_id=" + user_id + ", subject_id=" + subject_id + "]";
 	}
 
@@ -181,9 +181,9 @@ public class Bounty {
 		int result = 1;
 		result = prime * result + amount;
 		result = prime * result + bounty_id;
-		result = prime * result + ((bounty_picture == null) ? 0 : bounty_picture.hashCode());
-		result = prime * result + bounty_status_id;
-		result = prime * result + correct_answer;
+		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
+		result = prime * result + status_id;
+		result = prime * result + answer_id;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + subject_id;
 		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
@@ -206,14 +206,14 @@ public class Bounty {
 			return false;
 		if (bounty_id != other.bounty_id)
 			return false;
-		if (bounty_picture == null) {
-			if (other.bounty_picture != null)
+		if (picture == null) {
+			if (other.picture != null)
 				return false;
-		} else if (!bounty_picture.equals(other.bounty_picture))
+		} else if (!picture.equals(other.picture))
 			return false;
-		if (bounty_status_id != other.bounty_status_id)
+		if (status_id != other.status_id)
 			return false;
-		if (correct_answer != other.correct_answer)
+		if (answer_id != other.answer_id)
 			return false;
 		if (description == null) {
 			if (other.description != null)

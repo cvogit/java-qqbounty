@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -152,5 +153,9 @@ public class User {
 		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", picture=" + picture + ", rating=" + rating + ", wallet_id=" + wallet_id + ", role_id=" + role_id
 				+ "]";
+	}
+	
+	public void hashPassword() {
+		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
 	}
 }

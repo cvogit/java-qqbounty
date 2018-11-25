@@ -35,7 +35,6 @@ public class UserService {
 		pUser.setRole_id(1);
 		pUser.setRating(0);
 		pUser.hashPassword();
-		System.out.println(pUser.getPassword().length());
 
 		return sUserRepo.save(pUser);
 	}
@@ -55,5 +54,9 @@ public class UserService {
 			}
 		}
 		return null;
+	}
+	
+	public User update(User pUser) {
+		return sUserRepo.update(pUser);
 	}
 }

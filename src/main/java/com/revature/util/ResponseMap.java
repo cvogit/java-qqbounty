@@ -3,11 +3,9 @@ package com.revature.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Entity;
+import org.springframework.stereotype.Component;
 
-import org.springframework.stereotype.Service;
-
-@Service
+@Component
 public class ResponseMap {
 	private Map<String, Object> tResponse;
 
@@ -26,7 +24,13 @@ public class ResponseMap {
 		this.tResponse.put("result", pResult);
 	}
 	
-	public Map<String, Object> getResponse() {
-		return tResponse;
+	public ResponseMap getGoodResponse() {
+		this.setMessage("Success");
+		return this;
+	}
+	
+	public ResponseMap getBadResponse() {
+		this.setMessage("Bad request");
+		return this;
 	}
 }

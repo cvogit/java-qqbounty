@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -53,7 +52,7 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static boolean jwtVerify(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	public static boolean jwtVerify(HttpServletRequest req) throws IOException {
 		if(req.getHeader("Authorization") != null) {
 			String[] tToken = req.getHeader("Authorization").split(" ");
 			if(tToken.length == 2) {
@@ -82,8 +81,8 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static Boolean isRequestFromSelf(HttpServletRequest req, HttpServletResponse resp, int pId) throws IOException {
-		if(!jwtVerify(req, resp))
+	public static Boolean isRequestFromSelf(HttpServletRequest req, int pId) throws IOException {
+		if(!jwtVerify(req))
 			return false;
 		if(extractUserId(req) == pId)
 			return true;
@@ -92,7 +91,7 @@ public class JwtUtil {
 	}
 	
 	/**
-	 * Verify request of user id is from self
+	 * Return user id from jwt
 	 * 
 	 * @param req
 	 * @return Boolean
@@ -114,5 +113,47 @@ public class JwtUtil {
 			}
 		}
 		return 0;
+	}
+	
+	/**
+	 * Return user role from jwt
+	 * 
+	 * @param req
+	 * @return Boolean
+	 * @throws IOException 
+	 * @throws SQLException
+	 */
+	public static int extractUserRoleId(HttpServletRequest req) {
+		if(req.getHeader("Authorization") != null) {
+			String[] tToken = req.getHeader("Authorization").split(" ");
+			if(tToken.length == 2) {
+				String tJwt = tToken[1];
+				try {
+					DecodedJWT jwt = JWT.decode(tJwt);
+				    Claim claim = jwt.getClaim("role_id");
+				    return claim.asInt();
+				} catch (JWTVerificationException exception){
+					return 0;
+				}
+			}
+		}
+		return 0;
+	}
+	
+	/**
+	 * Verify request is from Admin {2}
+	 * 
+	 * @param req
+	 * @return Boolean
+	 * @throws IOException 
+	 * @throws SQLException
+	 */
+	public static Boolean isRequestFromAdmin(HttpServletRequest req) throws IOException {
+		if(!jwtVerify(req))
+			return false;
+		if(extractUserRoleId(req) == 2)
+			return true;
+		else
+			return false;
 	}
 }

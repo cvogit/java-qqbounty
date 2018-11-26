@@ -19,5 +19,5 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	
 	@Query("SELECT u FROM User u WHERE u.username = ?1")
 	User findByUsername(String pUsername);
-	User update(User pUser);
+//	User update(User pUser);
 }

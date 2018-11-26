@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,50 +43,56 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public Map<String, Object> login(@RequestBody User pUser, HttpServletRequest req, HttpServletResponse resp) {
+	public ResponseEntity<ResponseMap> login(@RequestBody User pUser, HttpServletRequest req) {
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.login(pUser);
 		if(tResult == null) {
-			resp.setStatus(401);
-			sResponseMap.setMessage("Failure");
-			return sResponseMap.getResponse();
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		sResponseMap.setMessage("Success");
 		sResponseMap.setResult(tResult);
-		return sResponseMap.getResponse();
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping
 	@ResponseBody
-	public List<User> findAll() {
-		return sUserService.findAll();
-		
-//		// Set response map fields
-//		sResponseMap.setMessage("Success");
-//		sResponseMap.setResult(tUserList);
-//		return sResponseMap.getResponse();
-	}
-
-	@GetMapping("{id}")
-	public User findById(@PathVariable int id) {
-		return sUserService.findById(id);
-	}
-
-	@PutMapping("{id}")
-	public Map<String, Object> update(@PathVariable int id, @Valid @RequestBody User user, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		if(!JwtUtil.isRequestFromSelf(req, resp, id)) {
-			resp.setStatus(401);
-			sResponseMap.setMessage("Unauthorize request");
-			return sResponseMap.getResponse();
+	public ResponseEntity<ResponseMap> findAll(HttpServletRequest req) throws IOException {
+		if(!JwtUtil.isRequestFromAdmin(req)) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		
-//		Map<String, Object> tResult = (Map<String, Object>) sUserService.login(pUser);
-//		if(tResult == null) {
-//			resp.setStatus(401);
-//			sResponseMap.setMessage("Failure");
-//			return sResponseMap.getResponse();
-//		}
-		sResponseMap.setMessage("Success");
-//		sResponseMap.setResult(tResult);
-		return sResponseMap.getResponse();
+		Map<String, Object> tResult = (Map<String, Object>) sUserService.findAll();
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+		}
+		sResponseMap.setResult(tResult);
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("{id}")
+	public ResponseEntity<ResponseMap> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
+		if(!JwtUtil.isRequestFromSelf(req, id)) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+		}
+		Map<String, Object> tResult = (Map<String, Object>) sUserService.findById(id);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+		}
+		sResponseMap.setResult(tResult);
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
+	}
+
+	@SuppressWarnings("unchecked")
+	@PatchMapping("{id}")
+	public ResponseEntity<ResponseMap> update(@PathVariable int id, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
+		if(!JwtUtil.isRequestFromSelf(req, id)) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+		}
+		pUser.setUser_id(id);
+		Map<String, Object> tResult = (Map<String, Object>) sUserService.update(pUser);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+		}
+		sResponseMap.setResult(tResult);
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
 	}
 }

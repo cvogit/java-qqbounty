@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
 import javax.validation.constraints.Size;
 
 import org.springframework.lang.Nullable;
@@ -56,14 +57,13 @@ public class Bounty {
 	
 	@NotNull
 	private int subject_id;
-	
-	
+
 	public Bounty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bounty(int bounty_id, String description, Timestamp submitted, int amount, int votes, int timer,
+	public Bounty(int bounty_id, @NotNull String description, Timestamp submitted, int amount, int votes, int timer,
 			int status_id, int answer_id, String picture, int user_id, int subject_id) {
 		super();
 		this.bounty_id = bounty_id;
@@ -94,12 +94,12 @@ public class Bounty {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Timestamp getSumbitted() {
+  
+	public Timestamp getSubmitted() {
 		return submitted;
 	}
 
-	public void setSumbitted(Timestamp sumbitted) {
+	public void setSubmitted(Timestamp submitted) {
 		this.submitted = submitted;
 	}
 
@@ -168,23 +168,15 @@ public class Bounty {
 	}
 
 	@Override
-	public String toString() {
-		return "Bounty [bounty_id=" + bounty_id + ", description=" + description + ", sumbitted=" + submitted
-				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", status_id="
-				+ status_id + ", answer_id=" + answer_id + ", picture=" + picture
-				+ ", user_id=" + user_id + ", subject_id=" + subject_id + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + amount;
+		result = prime * result + answer_id;
 		result = prime * result + bounty_id;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		result = prime * result + status_id;
-		result = prime * result + answer_id;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + subject_id;
 		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
 		result = prime * result + timer;
@@ -204,7 +196,14 @@ public class Bounty {
 		Bounty other = (Bounty) obj;
 		if (amount != other.amount)
 			return false;
+		if (answer_id != other.answer_id)
+			return false;
 		if (bounty_id != other.bounty_id)
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
 			return false;
 		if (picture == null) {
 			if (other.picture != null)
@@ -212,13 +211,6 @@ public class Bounty {
 		} else if (!picture.equals(other.picture))
 			return false;
 		if (status_id != other.status_id)
-			return false;
-		if (answer_id != other.answer_id)
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
 			return false;
 		if (subject_id != other.subject_id)
 			return false;
@@ -236,5 +228,14 @@ public class Bounty {
 		return true;
 	}
 
-}
 
+	@Override
+	public String toString() {
+		return "Bounty [bounty_id=" + bounty_id + ", description=" + description + ", submitted=" + submitted
+				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", status_id=" + status_id
+				+ ", answer_id=" + answer_id + ", picture=" + picture + ", user_id=" + user_id + ", subject_id="
+				+ subject_id + "]";
+	}
+	
+	
+}

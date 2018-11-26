@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name="answers")
 public class Answer {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int answer_id;

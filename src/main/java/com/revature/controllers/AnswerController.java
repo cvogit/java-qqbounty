@@ -13,34 +13,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.models.Bounty;
-import com.revature.services.BountyService;
+import com.revature.models.Answer;
+import com.revature.services.AnswerService;
 
-	@RestController
-	@RequestMapping(path = "bounties")
-	public class BountyController {
+@RestController
+@RequestMapping(path = "answers")
+public class AnswerController {
 
 		@Autowired
-		private BountyService bs;
+		private AnswerService as;
 
 		@PostMapping
-		public Bounty save(@RequestBody Bounty pBounty) {
-			return bs.save(pBounty);
+		public Answer save(@RequestBody Answer pAnswer) {
+			return as.save(pAnswer);
 		}
 		
 		
 		@GetMapping
-		public List<Bounty> findAll() {
-			return bs.findAll();
+		public List<Answer> findAll() {
+			return as.findAll();
 		}
 
 		@GetMapping("{id}")
-		public Bounty findById(@PathVariable int id) {
-			return bs.findById(id);
+		public Answer findById(@PathVariable int id) {
+			return as.findById(id);
 		}
 
 		@PutMapping
-		public Bounty update(@Valid @RequestBody Bounty bounty) {
-			return bs.save(bounty);
+		public Answer update(@Valid @RequestBody Answer pAnswer) {
+			return as.save(pAnswer);
 		}
-	}
+}

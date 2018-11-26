@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.models.Answer;
 import com.revature.models.Bounty;
+import com.revature.services.AnswerService;
 import com.revature.services.BountyService;
 
 	@RestController
@@ -22,7 +24,10 @@ import com.revature.services.BountyService;
 
 		@Autowired
 		private BountyService bs;
-
+		
+		@Autowired
+		private AnswerService as;
+		
 		@PostMapping
 		public Bounty save(@RequestBody Bounty pBounty) {
 			return bs.save(pBounty);
@@ -34,13 +39,24 @@ import com.revature.services.BountyService;
 			return bs.findAll();
 		}
 
-		@GetMapping("{id}")
-		public Bounty findById(@PathVariable int id) {
-			return bs.findById(id);
-		}
 
 		@PutMapping
 		public Bounty update(@Valid @RequestBody Bounty bounty) {
 			return bs.save(bounty);
 		}
+		
+		//get answers by bounty id
+		@GetMapping("{id}/answers")
+		public List<Answer> findByBountyid(@PathVariable int id) {
+			System.out.println("here"); 
+			return as.findByBountyId(id);
+		}
+		
+
+		@GetMapping("{id}")
+		public Bounty findById(@PathVariable int id) {
+			return bs.findById(id);
+		}
+		
+		
 	}

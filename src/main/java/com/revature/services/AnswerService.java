@@ -23,6 +23,10 @@ public class AnswerService {
 		return answerRepo.getOne(id);
 	}
 	
+	public List<Answer> findByBountyId(int id) {
+		return answerRepo.findByBountyId(id);
+	}
+	
   
   /*  EXAMPLE SAVE REQUEST
 		*{
@@ -31,7 +35,7 @@ public class AnswerService {
   */
 	//set Timestamp upon new bounty creation
 	public Answer save(Answer answer) {
-		answer.setStatus_id(1);
+		answer.setStatusId(1);
 		answer.setVotes(0);
 		answer.setSubmitted(TsUtil.stampIt());
 		return answerRepo.save(answer);

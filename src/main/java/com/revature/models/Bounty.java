@@ -1,18 +1,22 @@
 package com.revature.models;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import javax.validation.constraints.Size;
-
-import org.springframework.lang.Nullable;
+import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,14 +27,14 @@ public class Bounty {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int bounty_id;
+	private int bountyId;
 	
 	@NotNull
 	@Column
 	private String description;
 	
 	//Timestamp is generated via a utility, leave null on API call
-	@Nullable
+	@Null
 	private Timestamp submitted;
 	
 	@NotNull
@@ -43,48 +47,58 @@ public class Bounty {
 	private int timer;
 	
 	@NotNull
-	private int status_id;
+	private int statusId;
 	
-	//Default all answers to answer_id until a correct answer is chosen
-	@Nullable
-	private int answer_id;
+	//Default 
+	@Null
+	private Integer correctAnswerId;
 	
-	@Nullable
+	@Null
 	private String picture;
 	
 	@NotNull
-	private int user_id;
+	private int userId;
 	
-	@NotNull
-	private int subject_id;
+	 @ManyToMany(fetch = FetchType.LAZY,
+	            cascade = {
+	                CascadeType.PERSIST,
+	                CascadeType.MERGE
+	            })
+	    @JoinTable(name = "subjectstobounties",
+	            joinColumns = { @JoinColumn(name = "bountyId") },
+	            inverseJoinColumns = { @JoinColumn(name = "subjectId") })
+	private Set<Subject> subject = new HashSet<>();
 
 	public Bounty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bounty(int bounty_id, @NotNull String description, Timestamp submitted, int amount, int votes, int timer,
-			int status_id, int answer_id, String picture, int user_id, int subject_id) {
+	public Bounty(int bountyId, @NotNull String description, Timestamp submitted, int amount, int votes, int timer,
+			int statusId, Integer correctAnswerId, String picture, int userId) {
 		super();
-		this.bounty_id = bounty_id;
+		this.bountyId = bountyId;
 		this.description = description;
 		this.submitted = submitted;
 		this.amount = amount;
 		this.votes = votes;
 		this.timer = timer;
-		this.status_id = status_id;
-		this.answer_id = answer_id;
+		this.statusId = statusId;
+		this.correctAnswerId = correctAnswerId;
 		this.picture = picture;
-		this.user_id = user_id;
-		this.subject_id = subject_id;
+		this.userId = userId;
+	
 	}
 
-	public int getBounty_id() {
-		return bounty_id;
+	
+	
+
+	public int getBountyId() {
+		return bountyId;
 	}
 
-	public void setBounty_id(int bounty_id) {
-		this.bounty_id = bounty_id;
+	public void setBountyId(int bountyId) {
+		this.bountyId = bountyId;
 	}
 
 	public String getDescription() {
@@ -94,7 +108,7 @@ public class Bounty {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-  
+
 	public Timestamp getSubmitted() {
 		return submitted;
 	}
@@ -127,20 +141,20 @@ public class Bounty {
 		this.timer = timer;
 	}
 
-	public int getStatus_id() {
-		return status_id;
+	public int getStatusId() {
+		return statusId;
 	}
 
-	public void setStatus_id(int status_id) {
-		this.status_id = status_id;
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
 	}
 
-	public int getAnswer_id() {
-		return answer_id;
+	public Integer getCorrectAnswerId() {
+		return correctAnswerId;
 	}
 
-	public void setAnswer_id(int answer_id) {
-		this.answer_id = answer_id;
+	public void setCorrectAnswerId(int correctAnswerId) {
+		this.correctAnswerId = correctAnswerId;
 	}
 
 	public String getPicture() {
@@ -151,20 +165,20 @@ public class Bounty {
 		this.picture = picture;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public int getSubject_id() {
-		return subject_id;
+	public Set<Subject> getSubject() {
+		return subject;
 	}
 
-	public void setSubject_id(int subject_id) {
-		this.subject_id = subject_id;
+	public void setSubject(Set<Subject> subject) {
+		this.subject = subject;
 	}
 
 	@Override
@@ -172,15 +186,14 @@ public class Bounty {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + amount;
-		result = prime * result + answer_id;
-		result = prime * result + bounty_id;
+		result = prime * result + correctAnswerId;
+		result = prime * result + bountyId;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
-		result = prime * result + status_id;
-		result = prime * result + subject_id;
+		result = prime * result + statusId;
 		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
 		result = prime * result + timer;
-		result = prime * result + user_id;
+		result = prime * result + userId;
 		result = prime * result + votes;
 		return result;
 	}
@@ -196,9 +209,9 @@ public class Bounty {
 		Bounty other = (Bounty) obj;
 		if (amount != other.amount)
 			return false;
-		if (answer_id != other.answer_id)
+		if (correctAnswerId != other.correctAnswerId)
 			return false;
-		if (bounty_id != other.bounty_id)
+		if (bountyId != other.bountyId)
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -210,9 +223,7 @@ public class Bounty {
 				return false;
 		} else if (!picture.equals(other.picture))
 			return false;
-		if (status_id != other.status_id)
-			return false;
-		if (subject_id != other.subject_id)
+		if (statusId != other.statusId)
 			return false;
 		if (submitted == null) {
 			if (other.submitted != null)
@@ -221,7 +232,7 @@ public class Bounty {
 			return false;
 		if (timer != other.timer)
 			return false;
-		if (user_id != other.user_id)
+		if (userId != other.userId)
 			return false;
 		if (votes != other.votes)
 			return false;
@@ -231,10 +242,10 @@ public class Bounty {
 
 	@Override
 	public String toString() {
-		return "Bounty [bounty_id=" + bounty_id + ", description=" + description + ", submitted=" + submitted
-				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", status_id=" + status_id
-				+ ", answer_id=" + answer_id + ", picture=" + picture + ", user_id=" + user_id + ", subject_id="
-				+ subject_id + "]";
+		return "Bounty [bountyId=" + bountyId + ", description=" + description + ", submitted=" + submitted
+				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", statusId=" + statusId
+				+ ", correctAnswerId=" + correctAnswerId + ", picture=" + picture + ", userId=" + userId + ", subject_id="
+				+ "]";
 	}
 	
 	

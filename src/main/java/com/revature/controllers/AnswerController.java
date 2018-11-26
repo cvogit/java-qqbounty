@@ -28,7 +28,6 @@ public class AnswerController {
 			return as.save(pAnswer);
 		}
 		
-		
 		@GetMapping
 		public List<Answer> findAll() {
 			return as.findAll();

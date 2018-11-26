@@ -80,7 +80,7 @@ public class UserController {
 		if(!JwtUtil.isRequestFromSelf(req, id)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		pUser.setUser_id(id);
+		pUser.setUserId(id);
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.update(pUser);
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());

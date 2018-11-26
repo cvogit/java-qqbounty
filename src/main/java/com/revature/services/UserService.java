@@ -37,8 +37,8 @@ public class UserService {
 	}
 
 	public User save(User pUser) {
-		pUser.setWallet_id(sWalletService.newWallet().getWallet_id());
-		pUser.setRole_id(1);
+		pUser.setWalletId(sWalletService.newWallet().getWallet_id());
+		pUser.setRoleId(1);
 		pUser.setRating(0);
 		pUser.hashPassword();
 
@@ -63,7 +63,7 @@ public class UserService {
 	}
 	
 	public UserPublicDto update(User pUser) {
-		User tUser = sUserRepo.getOne(pUser.getUser_id());
+		User tUser = sUserRepo.getOne(pUser.getUserId());
 		tUser.setEmail(pUser.getEmail());
 		tUser.setPicture(pUser.getPicture());
 		return new UserPublicDto(tUser);

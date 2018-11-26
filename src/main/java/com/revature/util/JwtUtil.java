@@ -35,8 +35,8 @@ public class JwtUtil {
 	
 		tJwt = JWT.create()
 		.withClaim("username", 	pUser.getUsername())
-		.withClaim("user_id", 	pUser.getUser_id())
-		.withClaim("role_id", 	pUser.getRole_id())
+		.withClaim("user_id", 	pUser.getUserId())
+		.withClaim("role_id", 	pUser.getRoleId())
 		.withIssuer("auth0")
 		.withExpiresAt(tExpDate)
 		.sign(algorithm);

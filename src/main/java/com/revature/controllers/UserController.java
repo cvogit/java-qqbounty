@@ -44,8 +44,7 @@ public class UserController {
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		sResponseMap.setResult(tResult);
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -59,8 +58,7 @@ public class UserController {
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		sResponseMap.setResult(tResult);
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,8 +71,7 @@ public class UserController {
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		sResponseMap.setResult(tResult);
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,7 +85,6 @@ public class UserController {
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		sResponseMap.setResult(tResult);
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse());
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
 	}
 }

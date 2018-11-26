@@ -24,7 +24,8 @@ public class ResponseMap {
 		this.tResponse.put("result", pResult);
 	}
 	
-	public Map<String, Object> getGoodResponse() {
+	public Map<String, Object> getGoodResponse(Object pResult) {
+		this.tResponse.put("result", pResult);
 		this.setMessage("Success");
 		return tResponse;
 	}

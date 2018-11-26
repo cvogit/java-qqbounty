@@ -24,13 +24,13 @@ public class ResponseMap {
 		this.tResponse.put("result", pResult);
 	}
 	
-	public ResponseMap getGoodResponse() {
+	public Map<String, Object> getGoodResponse() {
 		this.setMessage("Success");
-		return this;
+		return tResponse;
 	}
 	
-	public ResponseMap getBadResponse() {
+	public Map<String, Object> getBadResponse() {
 		this.setMessage("Bad request");
-		return this;
+		return tResponse;
 	}
 }

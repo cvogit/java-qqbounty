@@ -65,6 +65,7 @@ public class UserService {
 	public UserPublicDto update(User pUser) {
 		User tUser = sUserRepo.getOne(pUser.getUser_id());
 		tUser.setEmail(pUser.getEmail());
+		tUser.setPicture(pUser.getPicture());
 		return new UserPublicDto(tUser);
 	}
 }

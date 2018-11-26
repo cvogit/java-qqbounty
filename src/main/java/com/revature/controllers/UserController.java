@@ -1,21 +1,17 @@
 package com.revature.controllers;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,7 +39,7 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public ResponseEntity<ResponseMap> login(@RequestBody User pUser, HttpServletRequest req) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody User pUser, HttpServletRequest req) {
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.login(pUser);
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
@@ -55,7 +51,7 @@ public class UserController {
 	@SuppressWarnings("unchecked")
 	@GetMapping
 	@ResponseBody
-	public ResponseEntity<ResponseMap> findAll(HttpServletRequest req) throws IOException {
+	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
 		if(!JwtUtil.isRequestFromAdmin(req)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
@@ -69,7 +65,7 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("{id}")
-	public ResponseEntity<ResponseMap> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
+	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
 		if(!JwtUtil.isRequestFromSelf(req, id)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
@@ -83,7 +79,7 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@PatchMapping("{id}")
-	public ResponseEntity<ResponseMap> update(@PathVariable int id, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
+	public ResponseEntity<Map<String, Object>> update(@PathVariable int id, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
 		if(!JwtUtil.isRequestFromSelf(req, id)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}

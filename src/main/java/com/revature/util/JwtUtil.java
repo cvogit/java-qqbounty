@@ -63,7 +63,7 @@ public class JwtUtil {
 				    JWTVerifier verifier = JWT.require(algorithm)
 				        .withIssuer("auth0")
 				        .build();
-				    DecodedJWT jwt = verifier.verify(tJwt);
+				    verifier.verify(tJwt);
 				} catch (JWTVerificationException exception){
 					return false;
 				}

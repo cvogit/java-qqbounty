@@ -16,6 +16,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name="answers")
 public class Answer {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int answer_id;
+	
+	@NotNull
+	@Column
+	private String description;
+	
+	//Timestamp is generated via a utility, leave null on API call
+	@Nullable
+	private Timestamp submitted;
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,9 +75,6 @@ public class Answer {
 			this.answerId = answerId;
 		}
 
-		public String getDescription() {
-			return description;
-		}
 
 		public void setDescription(String description) {
 			this.description = description;
@@ -141,8 +149,14 @@ public class Answer {
 				if (other.submitted != null)
 					return false;
 			} else if (!submitted.equals(other.submitted))
+
 				return false;
-			if (votes != other.votes)
+		} else if (!description.equals(other.description))
+			return false;
+		if (status_id != other.status_id)
+			return false;
+		if (submitted == null) {
+			if (other.submitted != null)
 				return false;
 			return true;
 		}

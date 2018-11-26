@@ -19,7 +19,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int user_id;
+	private int userId;
 
 	@NotNull
 	@Size(min=4, max=12)
@@ -42,39 +42,38 @@ public class User {
 	private int rating;
 	
 	@Column(nullable=false)
-	private int wallet_id;
+	private int walletId;
 	
 	@Column(nullable=false)
-	private int role_id;
+	private int roleId;
 	
 	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
-	public User(int user_id, @NotNull @Size(min = 4, max = 12) String username, @NotNull String password,
-			@NotNull String email, String picture, int rating, int wallet_id, int role_id) {
+	
+	public User(int userId, @NotNull @Size(min = 4, max = 12) String username, @NotNull String password,
+			@NotNull String email, String picture, int rating, int walletId, int roleId) {
 		super();
-		this.user_id = user_id;
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.picture = picture;
 		this.rating = rating;
-		this.wallet_id = wallet_id;
-		this.role_id = role_id;
+		this.walletId = walletId;
+		this.roleId = roleId;
 	}
 
 
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 
@@ -128,33 +127,26 @@ public class User {
 	}
 
 
-	public int getWallet_id() {
-		return wallet_id;
+	public int getWalletId() {
+		return walletId;
 	}
 
 
-	public void setWallet_id(int wallet_id) {
-		this.wallet_id = wallet_id;
+	public void setWalletId(int walletId) {
+		this.walletId = walletId;
 	}
 
 
-	public int getRole_id() {
-		return role_id;
+	public int getRoleId() {
+		return roleId;
 	}
 
 
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", picture=" + picture + ", rating=" + rating + ", wallet_id=" + wallet_id + ", role_id=" + role_id
-				+ "]";
-	}
-	
 	public void hashPassword() {
 		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
 	}

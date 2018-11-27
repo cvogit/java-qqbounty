@@ -25,40 +25,43 @@ import com.revature.util.JwtUtil;
 @RequestMapping(path = "answers")
 public class AnswerController {
 
-		@Autowired
-		private AnswerService as;
-
-		@PostMapping
-		public Answer save(@RequestBody Answer pAnswer) {
-			return as.save(pAnswer);
-		}
-		
-		@GetMapping
-		public List<Answer> findAll() {
-			return as.findAll();
-		}
-
-		@GetMapping("{id}")
-		public Answer findById(@PathVariable int id) {
-			return as.findById(id);
-		}
-
-		@PutMapping
-		public Answer update(@Valid @RequestBody Answer pAnswer) {
-			return as.update(pAnswer);
-		}
-		
+	@Autowired
+	private AnswerService as;
 	
-		@PatchMapping("{id}")
-		public Boolean updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
-			if(!JwtUtil.jwtVerify(req)) {
-				System.out.println("User not verified");
-				return false;
-			}
-			
-			int userId = JwtUtil.extractUserId(req);
+	@Autowired
+	private JwtUtil sJwtUtil;
+
+	@PostMapping
+	public Answer save(@RequestBody Answer pAnswer) {
+		return as.save(pAnswer);
+	}
+	
+	@GetMapping
+	public List<Answer> findAll() {
+		return as.findAll();
+	}
+
+	@GetMapping("{id}")
+	public Answer findById(@PathVariable int id) {
+		return as.findById(id);
+	}
+
+	@PutMapping
+	public Answer update(@Valid @RequestBody Answer pAnswer) {
+		return as.update(pAnswer);
+	}
+	
+
+	@PatchMapping("{id}")
+	public Boolean updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
+//			if(!JwtUtil.jwtVerify(req)) {
+//				System.out.println("User not verified");
+//				return false;
+//			}
 		
-			return as.updateVote(id,userId,voteValue);
-		}
+		int userId = sJwtUtil.extractUserId(req);
+	
+		return as.updateVote(id,userId,voteValue);
+	}
 
 }

@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.annotations.JwtUserIsAdmin;
+import com.revature.annotations.JwtUserIsSelf;
 import com.revature.models.User;
 import com.revature.services.UserService;
-import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
 
 @RestController
@@ -46,14 +47,11 @@ public class UserController {
 		}
 		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@GetMapping
 	@ResponseBody
+	@JwtUserIsAdmin
 	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
-		if(!JwtUtil.isRequestFromAdmin(req)) {
-			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
-		}
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.findAll();
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
@@ -63,10 +61,8 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("{id}")
+	@JwtUserIsSelf
 	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
-		if(!JwtUtil.isRequestFromSelf(req, id)) {
-			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
-		}
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.findById(id);
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
@@ -77,9 +73,9 @@ public class UserController {
 	@SuppressWarnings("unchecked")
 	@PatchMapping("{id}")
 	public ResponseEntity<Map<String, Object>> update(@PathVariable int id, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
-		if(!JwtUtil.isRequestFromSelf(req, id)) {
-			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
-		}
+//		if(!JwtUtil.isRequestFromSelf(req, id)) {
+//			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+//		}
 		pUser.setUserId(id);
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.update(pUser);
 		if(tResult == null) {

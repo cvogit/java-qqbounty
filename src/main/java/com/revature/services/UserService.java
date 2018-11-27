@@ -14,6 +14,7 @@ import com.revature.dto.UserPublicDto;
 import com.revature.models.User;
 import com.revature.repos.UserRepo;
 import com.revature.util.JwtUtil;
+import com.revature.util.ResponseMap;
 
 @Service
 public class UserService {
@@ -23,13 +24,16 @@ public class UserService {
 	
 	@Autowired
 	private WalletService sWalletService;
+	
+	@Autowired
+	private JwtUtil sJwtUtil;
 
-	public List<UserPublicDto> findAll() {
+	public Map<String, Object> findAll() {
 		List<User> tUserList = sUserRepo.findAll();
-		List<UserPublicDto> tUserPublicDtos = new ArrayList<UserPublicDto>();
-		tUserList.forEach(user -> tUserPublicDtos.add(new UserPublicDto(user)));
+		List<String> tUserPublicDtos = new ArrayList<String>();
+		tUserList.forEach(user -> tUserPublicDtos.add(new UserPublicDto(user).toString()));
 		
-		return tUserPublicDtos;
+		return ResponseMap.getNewMap("user_list", tUserPublicDtos.toString());
 	}
 
 	public UserPublicDto findById(int pId) {
@@ -51,7 +55,7 @@ public class UserService {
 			if(BCrypt.checkpw(pUser.getPassword(), tUser.getPassword())) {
 				Map<String, Object> tResult = new HashMap<>();
 				try {
-					tResult.put("jwt", JwtUtil.createJwt(tUser));
+					tResult.put("jwt", sJwtUtil.createJwt(tUser));
 					return tResult;
 				} catch (IOException e) {
 					e.printStackTrace();

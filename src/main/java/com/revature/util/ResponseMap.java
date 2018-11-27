@@ -30,8 +30,22 @@ public class ResponseMap {
 		return tResponse;
 	}
 	
+	
 	public Map<String, Object> getBadResponse() {
+		this.tResponse.put("result", null);
 		this.setMessage("Bad request");
 		return tResponse;
+	}
+	
+	/**
+	 * Create a new map object
+	 * @param tName
+	 * @param pObject
+	 * @return Map<String, Object>
+	 */
+	public static Map<String, Object> getNewMap(String tName, Object pObject) {
+		Map<String, Object> tMap = new HashMap<>();
+		tMap.put(tName, pObject);
+		return tMap;
 	}
 }

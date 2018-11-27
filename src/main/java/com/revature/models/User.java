@@ -21,30 +21,26 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 
-	@NotNull
 	@Size(min=4, max=12)
-	@Column(unique=true, nullable=false, updatable=false)
+	@Column(unique=true, nullable=true, updatable=false)
 	private String username;
 	
-	@NotNull
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String password;
 
-
-	@NotNull
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String email;
 	
 	@Column(nullable=true)
 	private String picture;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private int rating;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private int walletId;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private int roleId;
 	
 	

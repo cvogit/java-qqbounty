@@ -33,58 +33,59 @@ public class UserController {
 	private ResponseMap sResponseMap;
 
 	@PostMapping
-	public User save(@RequestBody User pUser) {
-		return sUserService.save(pUser);
+	public ResponseEntity<Map<String, Object>> save(@RequestBody User pUser) {
+		Map<String, Object> tServiceResult = sUserService.save(pUser);
+		if(tServiceResult == null) {
+			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 	
 	@PostMapping("/login")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> login(@RequestBody User pUser, HttpServletRequest req) {
-		Map<String, Object> tResult = (Map<String, Object>) sUserService.login(pUser);
-		if(tResult == null) {
+		Object tServiceResult = sUserService.login(pUser);
+		if(tServiceResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 	
-	@SuppressWarnings("unchecked")
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
 		if(!JwtUtil.isRequestFromAdmin(req)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		Map<String, Object> tResult = (Map<String, Object>) sUserService.findAll();
-		if(tResult == null) {
+		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.findAll();
+		if(tServiceResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("{id}")
 	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
 		if(!JwtUtil.isRequestFromSelf(req, id)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		Map<String, Object> tResult = (Map<String, Object>) sUserService.findById(id);
-		if(tResult == null) {
+		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.findById(id);
+		if(tServiceResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 
-	@SuppressWarnings("unchecked")
 	@PatchMapping("{id}")
 	public ResponseEntity<Map<String, Object>> update(@PathVariable int id, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
 		if(!JwtUtil.isRequestFromSelf(req, id)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
 		pUser.setUserId(id);
-		Map<String, Object> tResult = (Map<String, Object>) sUserService.update(pUser);
-		if(tResult == null) {
+		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.update(pUser);
+		if(tServiceResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tResult));
+		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 }

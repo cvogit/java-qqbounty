@@ -17,5 +17,9 @@ public class VoteService {
 	public List<Vote> findByAnswerIdAndUserId(int answerId,int userId) {
 		return voteRepo.findByAnswerIdAndUserId(answerId,userId);
 	}
+	
+	public Vote save(Vote vote) {
+		return voteRepo.save(vote);
+	}
 
 }

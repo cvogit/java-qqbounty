@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+//beanstalk expects port 5000
+
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {

@@ -31,7 +31,6 @@ public class Subject {
 	
 	@ManyToMany(fetch = FetchType.LAZY,
             	cascade = {
-                CascadeType.PERSIST,
                 CascadeType.MERGE
             }, mappedBy = "subject")
 	private Set<Bounty> bounty = new HashSet<>();

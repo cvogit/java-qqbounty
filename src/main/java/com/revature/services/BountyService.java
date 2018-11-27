@@ -24,22 +24,26 @@ public class BountyService {
 	}
 	
   
-  /*  EXAMPLE SAVE REQUEST
+  /*  EXAMPLE SAVE/UPDATE REQUEST 
 		 * {
          *   "amount": 150, 	     	any-amount
          *   "description": "string",   any-string
          *   "picture": "string",       any-string
          *    "submitted": 0,           optional, auto sets to current date
          *    "status_id": 1,           Set to one
-         *    "subject_id": 1,          NEED TO MODIFY, only takes in one subject right now, no junction table yet
+         *    "subject_id": 1,          Testing junction table 11/26 @ 2108
          *    "timer": 0,               any-int
-         *    "user_id": 1,            valid user id
+         *    "user_id": 1,            valid user id 
          *    "votes": 0                Set to 0
          * }
 		 */
+	//user id will be set in controller when verifying jwt
 	//set Timestamp upon new bounty creation
 	public Bounty save(Bounty bounty) {
 		bounty.setSubmitted(TsUtil.stampIt());
+		bounty.setStatusId(1);
+		bounty.setCorrectAnswerId(null);
+		bounty.setVotes(0);
 		return bountyRepo.save(bounty);
 	}
 	

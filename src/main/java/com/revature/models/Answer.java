@@ -25,7 +25,6 @@ public class Answer {
 	private String description;
 	
 	//Timestamp is generated via a utility, leave null on API call
-	@Null
 	private Timestamp submitted;
 
 	@NotNull
@@ -65,6 +64,11 @@ public class Answer {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+
+	public String getDescription() {
+		return description;
 	}
 
 	public Timestamp getSubmitted() {

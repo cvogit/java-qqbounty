@@ -1,4 +1,3 @@
-
 --DROP TABLE answers CASCADE;
 --DROP TABLE answerstatus CASCADE;
 --DROP TABLE bounties CASCADE;
@@ -8,7 +7,7 @@
 --DROP TABLE users CASCADE;
 --DROP TABLE wallets CASCADE;
 --DROP TABLE SubjectsToBounties;
-
+--DROP TABLE AnswersToUsers;
 
 CREATE TABLE AnswerStatus
 (
@@ -76,19 +75,22 @@ CREATE TABLE Bounties
 	user_id 		 	INTEGER 		NOT NULL REFERENCES Users (user_id)
 );
 
-CREATE TABLE BountiesToAnswer
-(    
-    bounty_to_answer_id	SERIAL 		PRIMARY KEY,
-    bounty_id			INTEGER		NOT NULL REFERENCES Bounties (bounty_id),
-    answer_id			INTEGER		NOT NULL REFERENCES Answers (answer_id)
-);
-
 CREATE TABLE SubjectsToBounties
 (    
     subjects_to_bounties_id	SERIAL 		PRIMARY KEY,
     bounty_id				INTEGER		NOT NULL REFERENCES Bounties (bounty_id),
     subject_id				INTEGER		NOT NULL REFERENCES Subjects (subject_id)
 );
+
+
+CREATE TABLE AnswersToUsers
+(    
+    vote_id	SERIAL 		PRIMARY KEY,
+    user_id		    	INTEGER		NOT NULL REFERENCES Users (user_id),
+    answer_id			INTEGER		NOT NULL REFERENCES Answers (answer_id)
+);
+
+
 
 ALTER TABLE Answers ADD CONSTRAINT bounty_id_fk
 	FOREIGN KEY (bounty_id) REFERENCES Bounties (bounty_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -115,8 +117,6 @@ INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(1, 's
 INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported');
 
 
-INSERT INTO qqbounty.bounties
-(description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)
-VALUES('test bounty', CURRENT_TIMESTAMP, 100, 0, 7000000, 1, null, '', 1);
+INSERT INTO qqbounty.bounties (description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)VALUES('test bounty', CURRENT_TIMESTAMP, 100, 0, 7000000, 1, null, '', 1);
 
 INSERT INTO qqbounty.answers (answer_id, description,submitted,votes,status_id, bounty_id) VALUES(1, 'No answer given yet',CURRENT_TIMESTAMP,0,1,1);

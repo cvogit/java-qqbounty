@@ -34,4 +34,16 @@ public class ResponseMap {
 		this.setMessage("Bad request");
 		return tResponse;
 	}
+	
+	/**
+	 * Create a new map object
+	 * @param tName
+	 * @param pObject
+	 * @return Map<String, Object>
+	 */
+	public static Map<String, Object> getNewMap(String tName, Object pObject) {
+		Map<String, Object> tMap = new HashMap<>();
+		tMap.put(tName, pObject);
+		return tMap;
+	}
 }

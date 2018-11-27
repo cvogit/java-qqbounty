@@ -24,6 +24,9 @@ public class UserService {
 	
 	@Autowired
 	private WalletService sWalletService;
+	
+	@Autowired
+	private JwtUtil sJwtUtil;
 
 	public Map<String, Object> findAll() {
 		List<User> tUserList = sUserRepo.findAll();
@@ -54,7 +57,7 @@ public class UserService {
 		if(tUser != null) {
 			if(BCrypt.checkpw(pUser.getPassword(), tUser.getPassword())) {
 				try {
-					return ResponseMap.getNewMap("jwt", JwtUtil.createJwt(tUser));
+					return ResponseMap.getNewMap("jwt", sJwtUtil.createJwt(tUser));
 				} catch (IOException e) {
 					e.printStackTrace();
 					return null;

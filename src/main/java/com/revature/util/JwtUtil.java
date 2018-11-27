@@ -7,15 +7,24 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.revature.models.Bounty;
 import com.revature.models.User;
+import com.revature.services.BountyService;
 
+@Component
 public class JwtUtil {
+	
+	@Autowired
+	private BountyService sBountyService;
 
 	/**
 	 * Create a Jwt and attach user is as private claim
@@ -25,7 +34,7 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static String createJwt(User pUser) throws IOException {
+	public String createJwt(User pUser) throws IOException {
 		Calendar tCalendar = Calendar.getInstance();
 		tCalendar.set(Calendar.HOUR_OF_DAY, Calendar.HOUR_OF_DAY + 2);
 		Date tExpDate = tCalendar.getTime();
@@ -52,7 +61,7 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static boolean jwtVerify(HttpServletRequest req) throws IOException {
+	public boolean jwtVerify(HttpServletRequest req) throws IOException {
 		if(req.getHeader("Authorization") != null) {
 			String[] tToken = req.getHeader("Authorization").split(" ");
 			if(tToken.length == 2) {
@@ -81,7 +90,7 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static Boolean isRequestFromSelf(HttpServletRequest req, int pId) throws IOException {
+	public Boolean isRequestFromSelf(HttpServletRequest req, int pId) throws IOException {
 		if(!jwtVerify(req))
 			return false;
 		if(extractUserId(req) == pId)
@@ -98,7 +107,7 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static int extractUserId(HttpServletRequest req) {
+	public int extractUserId(HttpServletRequest req) {
 		if(req.getHeader("Authorization") != null) {
 			String[] tToken = req.getHeader("Authorization").split(" ");
 			if(tToken.length == 2) {
@@ -123,7 +132,7 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static int extractUserRoleId(HttpServletRequest req) {
+	public int extractUserRoleId(HttpServletRequest req) {
 		if(req.getHeader("Authorization") != null) {
 			String[] tToken = req.getHeader("Authorization").split(" ");
 			if(tToken.length == 2) {
@@ -148,12 +157,30 @@ public class JwtUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public static Boolean isRequestFromAdmin(HttpServletRequest req) throws IOException {
+	public Boolean isRequestFromAdmin(HttpServletRequest req) throws IOException {
 		if(!jwtVerify(req))
 			return false;
 		if(extractUserRoleId(req) == 2)
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Verify request is from user that created the county
+	 * 
+	 * @param req
+	 * @return Boolean
+	 * @throws IOException 
+	 * @throws SQLException
+	 */
+	public boolean isBountyOwner(HttpServletRequest req, int pBountyId) throws IOException {
+		if(!jwtVerify(req))
+			return false;
+		int tUserId = extractUserId(req);
+		Bounty tBounty = sBountyService.findById(pBountyId);
+		if(tBounty.getUserId() == tUserId)
+			return true;
+		return false;
 	}
 }

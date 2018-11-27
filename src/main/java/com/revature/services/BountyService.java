@@ -1,12 +1,16 @@
 package com.revature.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.models.Bounty;
+import com.revature.repos.AnswerRepo;
 import com.revature.repos.BountyRepo;
+import com.revature.util.ResponseMap;
 import com.revature.util.TsUtil;
 
 @Service
@@ -14,6 +18,9 @@ public class BountyService {
 
 	@Autowired
 	private BountyRepo bountyRepo;
+	
+	@Autowired
+	private AnswerRepo sAnswerRepo;
 
 	public List<Bounty> findAll() {
 		return bountyRepo.findAll();
@@ -21,6 +28,15 @@ public class BountyService {
 
 	public Bounty findById(int id) {
 		return bountyRepo.getOne(id);
+	}
+	
+	@Transactional
+	public Map<String, Object> update(int pBountyId, int pAnswerId) {
+		if(sAnswerRepo.getOne(pAnswerId) == null)
+			return null;
+		Bounty tBounty = bountyRepo.getOne(pBountyId);
+		tBounty.setCorrectAnswerId(pAnswerId);
+		return ResponseMap.getNewMap("bounty", tBounty);
 	}
 	
   

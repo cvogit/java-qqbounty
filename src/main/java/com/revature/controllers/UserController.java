@@ -31,6 +31,9 @@ public class UserController {
 	
 	@Autowired
 	private ResponseMap sResponseMap;
+	
+	@Autowired
+	private JwtUtil sJwtUtil;
 
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> save(@RequestBody User pUser) {
@@ -54,7 +57,7 @@ public class UserController {
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
-		if(!JwtUtil.isRequestFromAdmin(req)) {
+		if(!sJwtUtil.isRequestFromAdmin(req)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
 		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.findAll();
@@ -64,24 +67,24 @@ public class UserController {
 		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 
-	@GetMapping("{id}")
-	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
-		if(!JwtUtil.isRequestFromSelf(req, id)) {
+	@GetMapping("{userId}")
+	public ResponseEntity<Map<String, Object>> findById(@PathVariable int userId, HttpServletRequest req) throws IOException {
+		if(!sJwtUtil.isRequestFromSelf(req, userId)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.findById(id);
+		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.findById(userId);
 		if(tServiceResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
 		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(tServiceResult));
 	}
 
-	@PatchMapping("{id}")
-	public ResponseEntity<Map<String, Object>> update(@PathVariable int id, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
-		if(!JwtUtil.isRequestFromSelf(req, id)) {
+	@PatchMapping("{userId}")
+	public ResponseEntity<Map<String, Object>> update(@PathVariable int userId, @Valid @RequestBody User pUser, HttpServletRequest req) throws IOException {
+		if(!sJwtUtil.isRequestFromSelf(req, userId)) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
 		}
-		pUser.setUserId(id);
+		pUser.setUserId(userId);
 		Map<String, Object> tServiceResult = (Map<String, Object>) sUserService.update(pUser);
 		if(tServiceResult == null) {
 			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());

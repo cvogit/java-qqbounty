@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -29,39 +31,38 @@ public class Bounty {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bountyId;
 	
-	@NotNull
+	
 	@Column
 	private String description;
 	
 	//Timestamp is generated via a utility, leave null on API call
-	@Null
+	@Nullable //please don't change this it will break the API
 	private Timestamp submitted;
 	
-	@NotNull
+	
 	private int amount;
 	
-	@NotNull
+	
 	private int votes;
 	
-	@NotNull
+	
 	private int timer;
 	
-	@NotNull
+	
 	private int statusId;
 	
-	//Default 
-	@Null
+
 	private Integer correctAnswerId;
 	
-	@Null
+	
 	private String picture;
 	
-	@NotNull
+	
 	private int userId;
 	
 	 @ManyToMany(fetch = FetchType.LAZY,
 	            cascade = {
-	                CascadeType.PERSIST,
+	           
 	                CascadeType.MERGE
 	            })
 	    @JoinTable(name = "subjectstobounties",
@@ -89,9 +90,6 @@ public class Bounty {
 		this.userId = userId;
 	
 	}
-
-	
-	
 
 	public int getBountyId() {
 		return bountyId;
@@ -153,7 +151,7 @@ public class Bounty {
 		return correctAnswerId;
 	}
 
-	public void setCorrectAnswerId(int correctAnswerId) {
+	public void setCorrectAnswerId(Integer correctAnswerId) {
 		this.correctAnswerId = correctAnswerId;
 	}
 

@@ -1,8 +1,8 @@
 package com.revature.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Bounty;
@@ -15,10 +15,10 @@ public class BountyService {
 	@Autowired
 	private BountyRepo bountyRepo;
 
-	public List<Bounty> findAll() {
-		return bountyRepo.findAll();
+	public Page<Bounty> findAll(Pageable pageable) {
+		return bountyRepo.findAll(pageable);
 	}
-
+	
 	public Bounty findById(int id) {
 		return bountyRepo.getOne(id);
 	}

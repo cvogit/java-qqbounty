@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerMapping;
@@ -15,8 +17,8 @@ import org.springframework.web.servlet.HandlerMapping;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class JwtAspect {
 
 	@Autowired
@@ -28,6 +30,7 @@ public class JwtAspect {
 	@Around(" @annotation(com.revature.annotations.JwtVerify)")
 	public Object verifyJwt(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		System.out.println("aspect");
 		if(!sJwtUtil.jwtVerify(request)) {
 			return ResponseEntity.status(401).body(sResponseMap.getBadResponse());
 		}

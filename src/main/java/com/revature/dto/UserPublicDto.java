@@ -39,4 +39,9 @@ public class UserPublicDto {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	@Override
+	public String toString() {
+		return "UserPublicDto [username=" + username + ", picture=" + picture + ", rating=" + rating + "]";
+	}
 }

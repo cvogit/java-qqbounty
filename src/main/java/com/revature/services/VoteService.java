@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import com.revature.models.Vote;
 import com.revature.repos.VoteRepo;
 
+/*
+ * This class is used to keep track of votes in AnswerService.
+ */
 @Service
 public class VoteService {
-
+	
 	@Autowired
 	private VoteRepo voteRepo;
 

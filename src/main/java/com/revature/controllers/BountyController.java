@@ -1,12 +1,12 @@
 package com.revature.controllers;
 
-import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.annotations.JwtVerify;
 import com.revature.models.Bounty;
 import com.revature.services.AnswerService;
 import com.revature.services.BountyService;
-import com.revature.services.UserService;
 import com.revature.util.ResponseMap;
 
 
@@ -29,9 +29,6 @@ import com.revature.util.ResponseMap;
 		
 	@Autowired
 	private BountyService bs;
-	
-	@Autowired
-	private UserService us;
 	
 	@Autowired
 	private AnswerService as;
@@ -50,8 +47,9 @@ import com.revature.util.ResponseMap;
 	//check that registered user is logged in here
 	@SuppressWarnings("unused")
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(bs.findAll()));
+	@JwtVerify //this is not working!
+	public Page<Bounty> findAll(Pageable pageable){
+		return bs.findAll(pageable);
     }
 		
 	//check for logged in as admin for this	
@@ -72,4 +70,6 @@ import com.revature.util.ResponseMap;
 	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id) {
 		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(bs.findById(id)));
 	}
+	
+	
 }

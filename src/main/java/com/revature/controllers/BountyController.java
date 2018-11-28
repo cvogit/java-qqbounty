@@ -38,15 +38,22 @@ public class BountyController {
 	//add subjects after creating bounty
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> save(@RequestBody Bounty pBounty) {
-		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(bs.save(pBounty)));
+		Map<String, Object> tResult = (Map<String, Object>) bs.save(pBounty);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 	
 	//check that registered user is logged in here
-	@SuppressWarnings("unused")
 	@GetMapping
-	@JwtVerify //this is not working!
-	public Page<Bounty> findAll(Pageable pageable){
-		return bs.findAll(pageable);
+	@JwtVerify
+	public ResponseEntity<Map<String, Object>> findAll(Pageable pageable){
+		Map<String, Object> tResult = (Map<String, Object>) bs.findAll(pageable);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
   }
 // 	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
 // 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(bs.findAll()));

@@ -38,7 +38,10 @@ public class UserService {
 	}
 
 	public Map<String, Object> findById(int pId) {
-		return ResponseMap.getNewMap("user_list", new UserPublicDto(sUserRepo.getOne(pId)));
+		User tUser = sUserRepo.getOne(pId);
+		if(tUser == null)
+			return null;
+		return ResponseMap.getNewMap("user_list", new UserPublicDto(tUser));
 	}
 
 	public Map<String, Object> save(User pUser) {
@@ -47,7 +50,10 @@ public class UserService {
 		pUser.setRating(0);
 		pUser.hashPassword();
 
-		return ResponseMap.getNewMap("user_list", sUserRepo.save(pUser));
+		User tUser = sUserRepo.save(pUser);
+		if(tUser == null)
+			return null;
+		return ResponseMap.getNewMap("user_list", tUser);
 	}
 
 	public Map<String, Object> login(User pUser) {
@@ -70,7 +76,9 @@ public class UserService {
 		User tUser = sUserRepo.getOne(pId);
 		tUser.setEmail(pUserDto.getEmail());
 		tUser.setPicture(pUserDto.getPicture());
-		sUserRepo.save(tUser);
+		tUser = sUserRepo.save(tUser);
+		if(tUser == null)
+			return null;
 		return ResponseMap.getNewMap("user", new UserPublicDto(tUser));
 	}
 }

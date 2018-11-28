@@ -27,7 +27,6 @@ public class JwtAspect {
 	@Around(" @annotation(com.revature.annotations.JwtVerify)")
 	public Object verifyJwt(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-		System.out.println("aspect");
 		if(!sJwtUtil.jwtVerify(request)) {
 			return ResponseEntity.status(401).body(ResponseMap.getBadResponse());
 		}

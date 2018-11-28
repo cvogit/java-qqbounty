@@ -24,12 +24,9 @@ public class AnswerService {
 	@Autowired
 	private VoteService voteService;
 
-	
-
 	public Map<String,Object> findAll() {
-		
-		 List<Answer> answerList= answerRepo.findAll();
-		 return ResponseMap.getNewMap("answer_list",answerList);
+		 List<Answer> answerList = answerRepo.findAll();
+		 return ResponseMap.getNewMap("answer_list", answerList);
 	}
 
 	public Map<String,Object>  findById(int id) {

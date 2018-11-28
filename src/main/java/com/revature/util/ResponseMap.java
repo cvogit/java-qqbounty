@@ -3,29 +3,26 @@ package com.revature.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class ResponseMap {
 	public ResponseMap() {
 		super();
 	}
 	
-	public Map<String, Object> getGoodResponse(Object pResult) {
+	public static Map<String, Object> getGoodResponse(Object pResult) {
 		Map<String, Object> tMap = new HashMap<>();
 		tMap.put("result", pResult);
 		tMap.put("message", "Success");
 		return tMap;
 	}
 	
-	public Map<String, Object> getGoodResponse(Object pResult, String pMessage) {
+	public static Map<String, Object> getGoodResponse(Object pResult, String pMessage) {
 		Map<String, Object> tMap = new HashMap<>();
 		tMap.put("result", pResult);
 		tMap.put("message", pMessage);
 		return tMap;
 	}
 	
-	public Map<String, Object> getBadResponse() {
+	public static Map<String, Object> getBadResponse() {
 		Map<String, Object> tMap = new HashMap<>();
 		tMap.put("result", null);
 		tMap.put("message", "Bad request");

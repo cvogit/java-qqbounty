@@ -24,15 +24,12 @@ public class JwtAspect {
 	@Autowired
 	private JwtUtil sJwtUtil;
 	
-	@Autowired
-	private ResponseMap sResponseMap;
-	
 	@Around(" @annotation(com.revature.annotations.JwtVerify)")
 	public Object verifyJwt(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		System.out.println("aspect");
 		if(!sJwtUtil.jwtVerify(request)) {
-			return ResponseEntity.status(401).body(sResponseMap.getBadResponse());
+			return ResponseEntity.status(401).body(ResponseMap.getBadResponse());
 		}
 		return pjp.proceed();
     }
@@ -43,7 +40,7 @@ public class JwtAspect {
 		Map tParams = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		if(!sJwtUtil.isRequestFromSelf(request, Integer.parseInt((String) tParams.get("userId")))) {
 			System.out.println("thing");
-			return ResponseEntity.status(403).body(sResponseMap.getBadResponse());
+			return ResponseEntity.status(403).body(ResponseMap.getBadResponse());
 		}
 		System.out.println("Request is good to go");
 		return pjp.proceed();
@@ -54,7 +51,7 @@ public class JwtAspect {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
 		if(!sJwtUtil.isRequestFromAdmin(request)) {
-			return ResponseEntity.status(403).body(sResponseMap.getBadResponse());
+			return ResponseEntity.status(403).body(ResponseMap.getBadResponse());
 		}
 		return pjp.proceed();
     }
@@ -65,7 +62,7 @@ public class JwtAspect {
 		Map tParams = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 
 		if(!sJwtUtil.isBountyOwner(request, Integer.parseInt((String) tParams.get("bountyId")))) {
-			return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 		}
 		return pjp.proceed();
     }

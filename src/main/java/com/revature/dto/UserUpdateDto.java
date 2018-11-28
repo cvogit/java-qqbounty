@@ -1,7 +1,5 @@
 package com.revature.dto;
 
-import com.revature.models.User;
-
 public class UserUpdateDto {
 	
 	private String picture;

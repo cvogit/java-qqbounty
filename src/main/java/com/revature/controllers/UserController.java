@@ -31,6 +31,11 @@ public class UserController {
 	@Autowired
 	private UserService sUserService;
 
+	/**
+	 * Save a new user
+	 * @param pUser
+	 * @return ResponseEntity<Map<String, Object>>
+	 */
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> save(@RequestBody User pUser) {
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.save(pUser);
@@ -40,6 +45,11 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 	
+	/**
+	 * Login a user
+	 * @param pUser
+	 * @return ResponseEntity<Map<String, Object>>
+	 */
 	@PostMapping("/login")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> login(@RequestBody User pUser, HttpServletRequest req) {
@@ -49,7 +59,12 @@ public class UserController {
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
-
+	
+	/**
+	 * Find a list of users
+	 * @param
+	 * @return ResponseEntity<Map<String, Object>>
+	 */
 	@GetMapping
 	@ResponseBody
 	@JwtVerify
@@ -61,6 +76,11 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 
+	/**
+	 * Find a user by their id
+	 * @param pUser
+	 * @return ResponseEntity<Map<String, Object>>
+	 */
 	@GetMapping("{id}")
 	@JwtUserIsSelf
 	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id, HttpServletRequest req) throws IOException {
@@ -71,6 +91,11 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 
+	/**
+	 * update a user by their id
+	 * @param pUser
+	 * @return ResponseEntity<Map<String, Object>>
+	 */
 	@PatchMapping("{id}")
 	@JwtUserIsSelf
 	public ResponseEntity<Map<String, Object>> update(@PathVariable int id, @Valid @RequestBody UserUpdateDto pUserDto, HttpServletRequest req) throws IOException {

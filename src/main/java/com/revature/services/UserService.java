@@ -29,6 +29,10 @@ public class UserService {
 	@Autowired
 	private JwtUtil sJwtUtil;
 
+	/**
+	 * Return a list of users or null
+	 * @return Map<String, Object>, null
+	 */
 	public Map<String, Object> findAll() {
 		List<User> tUserList = sUserRepo.findAll();
 		List<UserPublicDto> tUserPublicDtos = new ArrayList<UserPublicDto>();
@@ -37,6 +41,10 @@ public class UserService {
 		return ResponseMap.getNewMap("user_list", tUserPublicDtos);
 	}
 
+	/**
+	 * Return a user or null
+	 * @return Map<String, Object>, null
+	 */
 	public Map<String, Object> findById(int pId) {
 		User tUser = sUserRepo.getOne(pId);
 		if(tUser == null)
@@ -44,6 +52,10 @@ public class UserService {
 		return ResponseMap.getNewMap("user_list", new UserPublicDto(tUser));
 	}
 
+	/**
+	 * Save a user and return the user or null if unable to save
+	 * @return Map<String, Object>, null
+	 */
 	public Map<String, Object> save(User pUser) {
 		pUser.setWalletId(sWalletService.newWallet().getWallet_id());
 		pUser.setRoleId(1);
@@ -56,6 +68,10 @@ public class UserService {
 		return ResponseMap.getNewMap("user_list", tUser);
 	}
 
+	/**
+	 * Return a jwt if user can login, else return null
+	 * @return Map<String, Object>, null
+	 */
 	public Map<String, Object> login(User pUser) {
 		User tUser = sUserRepo.findByUsername(pUser.getUsername());
 		if(tUser != null) {
@@ -72,8 +88,14 @@ public class UserService {
 		return null;
 	}
 	
+	/**
+	 * Update an existing user and return said user or null
+	 * @return Map<String, Object>, null
+	 */
 	public Map<String, Object> update(UserUpdateDto pUserDto, int pId) {
 		User tUser = sUserRepo.getOne(pId);
+		if(tUser == null)
+			return null;
 		tUser.setEmail(pUserDto.getEmail());
 		tUser.setPicture(pUserDto.getPicture());
 		tUser = sUserRepo.save(tUser);

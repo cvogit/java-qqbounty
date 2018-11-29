@@ -47,7 +47,6 @@ public class JwtUtil {
 		.withClaim("user_id", 	pUser.getUserId())
 		.withClaim("role_id", 	pUser.getRoleId())
 		.withIssuer("auth0")
-		.withExpiresAt(tExpDate)
 		.sign(algorithm);
 		
 		return tJwt;

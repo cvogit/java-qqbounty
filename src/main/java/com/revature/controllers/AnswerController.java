@@ -56,13 +56,13 @@ public class AnswerController {
 	}
 
 	@PostMapping
-  @JwtVerify
+    @JwtVerify
 	public  ResponseEntity<Map<String, Object>> save(@RequestBody Answer pAnswer,HttpServletRequest req) throws IOException{
 		
 		int userId = sJwtUtil.extractUserId(req);
 	  if (userId == 0) {
 	   	 System.out.println("Could not find user, check token.");
-	     return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+	     return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 	  }
 	  pAnswer.setUserId(userId);
   

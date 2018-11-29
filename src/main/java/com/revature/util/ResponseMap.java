@@ -29,6 +29,13 @@ public class ResponseMap {
 		return tMap;
 	}
 	
+	public static Map<String, Object> getBadResponse(String pMessage) {
+		Map<String, Object> tMap = new HashMap<>();
+		tMap.put("result", null);
+		tMap.put("message", pMessage);
+		return tMap;
+	}
+	
 	/**
 	 * Create a new map object
 	 * @param tName

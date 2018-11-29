@@ -76,7 +76,6 @@ public class UserService {
 		User tUser = sUserRepo.findByUsername(pUser.getUsername());
 		if(tUser != null) {
 			if(BCrypt.checkpw(pUser.getPassword(), tUser.getPassword())) {
-				Map<String, Object> tResult = new HashMap<>();
 				try {
 					return ResponseMap.getNewMap("jwt", sJwtUtil.createJwt(tUser));
 				} catch (IOException e) {

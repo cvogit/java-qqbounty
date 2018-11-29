@@ -94,12 +94,11 @@ public class AnswerController {
 	@JwtVerify
 	@PatchMapping("{id}")
 	public ResponseEntity<Map<String, Object>> updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
-       
-
 		int userId = sJwtUtil.extractUserId(req);
+		
 		Map<String, Object> aResult = (Map<String, Object>) as.updateVote(id,userId,voteValue);
 		
-		System.out.println((boolean) aResult.get("vote_status") );
+		System.out.println("Vote request is " + (boolean) aResult.get("vote_status") );
 		
 		
 		if((boolean) aResult.get("vote_status") == false) {

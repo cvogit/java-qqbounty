@@ -1,29 +1,14 @@
---DROP TABLE answers CASCADE;
---DROP TABLE answerstatus CASCADE;
---DROP TABLE bounties CASCADE;
---DROP TABLE bountystatus CASCADE;
---DROP TABLE roles CASCADE;
---DROP TABLE subjects CASCADE;
---DROP TABLE users CASCADE;
---DROP TABLE wallets CASCADE;
---DROP TABLE SubjectsToBounties;
---DROP TABLE AnswersToUsers;
+-- DROP TABLE answers CASCADE;
+-- DROP TABLE answerstatus CASCADE;
+-- DROP TABLE bounties CASCADE;
+-- DROP TABLE bountystatus CASCADE;
+-- DROP TABLE roles CASCADE;
+-- DROP TABLE subjects CASCADE;
+-- DROP TABLE users CASCADE;
+-- DROP TABLE wallets CASCADE;
+-- DROP TABLE SubjectsToBounties;
+-- DROP TABLE AnswersToUsers;
 
-CREATE TABLE AnswerStatus
-(
-    answer_status_id 	NUMERIC     	PRIMARY KEY,
-    answer_status  		VARCHAR(20) 	NOT NULL
-);
-
-CREATE TABLE Answers
-(
-    answer_id  		SERIAL 		    PRIMARY KEY,
-    description 	VARCHAR(511)	NOT NULL, 
-    submitted   	TIMESTAMP 	    NOT NULL,
-    votes			INTEGER 	    NOT NULL DEFAULT 0,
-    status_id 		INTEGER 	    NOT NULL REFERENCES AnswerStatus (answer_status_id),
-    bounty_id		INTEGER			NOT NULL 
-);
 
 CREATE TABLE Roles
 (
@@ -47,6 +32,23 @@ CREATE TABLE Users
 	rating	   		NUMERIC			NOT NULL DEFAULT 0,
 	wallet_id		INTEGER			NOT NULL REFERENCES Wallets (wallet_id),
 	role_id			INTEGER 		NOT NULL REFERENCES Roles (role_id)
+);
+
+CREATE TABLE AnswerStatus
+(
+    answer_status_id 	NUMERIC     	PRIMARY KEY,
+    answer_status  		VARCHAR(20) 	NOT NULL
+);
+
+CREATE TABLE Answers
+(
+    answer_id  		SERIAL 		    PRIMARY KEY,
+	user_id         INTEGER         NOT NULL REFERENCES Users(user_id),
+    description 	VARCHAR(511)	NOT NULL, 
+    submitted   	TIMESTAMP 	    NOT NULL,
+    votes			INTEGER 	    NOT NULL DEFAULT 0,
+    status_id 		INTEGER 	    NOT NULL REFERENCES AnswerStatus (answer_status_id),
+    bounty_id		INTEGER			NOT NULL 
 );
 
 CREATE TABLE BountyStatus
@@ -115,8 +117,9 @@ INSERT INTO qqbounty.subjects (subject_id , subject) VALUES(2, 'Programming');
 
 INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(1, 'submitted');
 INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported');
+INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 
 
 INSERT INTO qqbounty.bounties (description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)VALUES('test bounty', CURRENT_TIMESTAMP, 100, 0, 7000000, 1, null, '', 1);
 
-INSERT INTO qqbounty.answers (answer_id, description,submitted,votes,status_id, bounty_id) VALUES(1, 'No answer given yet',CURRENT_TIMESTAMP,0,1,1);
+INSERT INTO qqbounty.answers (answer_id, user_id,description,submitted,votes,status_id, bounty_id) VALUES(1,1, 'No answer given yet',CURRENT_TIMESTAMP,0,1,1);

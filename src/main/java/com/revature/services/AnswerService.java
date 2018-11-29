@@ -24,10 +24,7 @@ public class AnswerService {
 	@Autowired
 	private VoteService voteService;
 
-	
-
 	public Map<String,Object> findAll() {
-		
 		 List<Answer> answerList= answerRepo.findAll();
 		 return ResponseMap.getNewMap("answer_list",answerList);
 	}
@@ -75,6 +72,4 @@ public class AnswerService {
 			System.out.println("voteValue not -1 or 1, voteValue is:" + voteValue);
 		    return ResponseMap.getNewMap("vote_status",false);
 	}
-	
-	
 }

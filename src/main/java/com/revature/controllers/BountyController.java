@@ -1,12 +1,12 @@
 package com.revature.controllers;
 
-import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,60 +16,83 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.annotations.JwtUserIsAdmin;
+import com.revature.annotations.JwtUserIsSelf;
+import com.revature.annotations.JwtVerify;
 import com.revature.models.Bounty;
 import com.revature.services.AnswerService;
 import com.revature.services.BountyService;
-import com.revature.services.UserService;
 import com.revature.util.ResponseMap;
 
 
-	@RestController
-	@RequestMapping(path = "bounties")
-	public class BountyController {
+@RestController
+@RequestMapping(path = "bounties")
+public class BountyController {
 		
-	@Autowired
-	private BountyService bs;
-	
-	@Autowired
-	private UserService us;
-	
-	@Autowired
-	private AnswerService as;
-	
-	@Autowired
-	private ResponseMap sResponseMap;
-	
+  @Autowired
+  private BountyService bs;
+
+  @Autowired
+  private AnswerService as;
+
 	//check for logged in user here
 	//will pass user id from extracted jwt here
 	//add subjects after creating bounty
 	@PostMapping
+	@JwtUserIsSelf
 	public ResponseEntity<Map<String, Object>> save(@RequestBody Bounty pBounty) {
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(bs.save(pBounty)));
+		Map<String, Object> tResult = (Map<String, Object>) bs.save(pBounty);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 	
 	//check that registered user is logged in here
-	@SuppressWarnings("unused")
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(bs.findAll()));
-    }
+	@JwtVerify
+	public ResponseEntity<Map<String, Object>> findAll(Pageable pageable){
+		Map<String, Object> tResult = (Map<String, Object>) bs.findAll(pageable);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+  }
+// 	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
+// 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(bs.findAll()));
+//   }
 		
 	//check for logged in as admin for this	
 	@PatchMapping
+	@JwtUserIsAdmin
 	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Bounty bounty) {
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(bs.save(bounty)));
+		Map<String, Object> tResult = (Map<String, Object>) bs.save(bounty);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 	
 	//check for registered user is logged in here
 	//get answers by bounty id
 	@GetMapping("{id}/answers")
+	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findByBountyid(@PathVariable int id) { 
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(as.findByBountyId(id)));
+		Map<String, Object> tResult = (Map<String, Object>) as.findByBountyId(id);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 	
 	//not sure when to use this...
 	@GetMapping("{id}")
+	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findById(@PathVariable int id) {
-		return ResponseEntity.ok().body(sResponseMap.getGoodResponse(bs.findById(id)));
+		Map<String, Object> tResult = (Map<String, Object>) bs.findById(id);
+		if(tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 }

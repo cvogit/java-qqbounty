@@ -37,7 +37,7 @@ public class AnswerController {
 		Map<String, Object> aResult = (Map<String, Object>) as.findAll();
 		if(aResult == null) {
 			System.out.println("No Answer List Found");
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No answer list found"));
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(aResult));
 	}
@@ -50,26 +50,26 @@ public class AnswerController {
 		Map<String, Object> aResult = (Map<String, Object>) as.findById(id);
 		if(aResult == null) {
 			System.out.println("Answer could not be found with id:" + id);
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Answer not found"));
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(aResult));
 	}
 
 	@PostMapping
-  @JwtVerify
+    @JwtVerify
 	public  ResponseEntity<Map<String, Object>> save(@RequestBody Answer pAnswer,HttpServletRequest req) throws IOException{
 		
-		int userId = sJwtUtil.extractUserId(req);
+	  int userId = sJwtUtil.extractUserId(req);
 	  if (userId == 0) {
 	   	 System.out.println("Could not find user, check token.");
-	     return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+	     return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Token not valid."));
 	  }
 	  pAnswer.setUserId(userId);
   
 		Map<String, Object> aResult = (Map<String, Object>) as.save(pAnswer);
 		if(aResult == null) {
 			System.out.println("Answer could not be saved");
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Answer could not be saved"));
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(aResult));
 	}
@@ -87,17 +87,16 @@ public class AnswerController {
 	@JwtVerify
 	@PatchMapping("{id}")
 	public ResponseEntity<Map<String, Object>> updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
-       
-
 		int userId = sJwtUtil.extractUserId(req);
+		
 		Map<String, Object> aResult = (Map<String, Object>) as.updateVote(id,userId,voteValue);
 		
-		System.out.println((boolean) aResult.get("vote_status") );
+		System.out.println("Vote request is " + (boolean) aResult.get("vote_status") );
 		
 		
 		if((boolean) aResult.get("vote_status") == false) {
 			System.out.println("Vote did not go through");
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Already Voted"));
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(aResult));
 	}

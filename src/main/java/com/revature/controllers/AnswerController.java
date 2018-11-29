@@ -65,7 +65,14 @@ public class AnswerController {
 
 	@JwtUserOwnBounty
 	@PostMapping
-	public  ResponseEntity<Map<String, Object>> save(@RequestBody Answer pAnswer) {
+	public  ResponseEntity<Map<String, Object>> save(@RequestBody Answer pAnswer,HttpServletRequest req) throws IOException{
+		
+		int userId = sJwtUtil.extractUserId(req);
+	    if (userId == 0) {
+	    	System.out.println("Could not find user, check token.");
+	    	return ResponseEntity.badRequest().body(sResponseMap.getBadResponse());
+	    }
+	    //pAnswer.setUserId(2);
 		Map<String, Object> aResult = (Map<String, Object>) as.save(pAnswer);
 		if(aResult == null) {
 			System.out.println("Answer could not be saved");

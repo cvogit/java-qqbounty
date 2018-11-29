@@ -46,6 +46,7 @@ public class AnswerService {
 		answer.setStatusId(1);
 		answer.setVotes(0);
 		answer.setSubmitted(TsUtil.stampIt());
+		
 
 		Answer updatedAnswer = answerRepo.save(answer);
 		return ResponseMap.getNewMap("answer",updatedAnswer);

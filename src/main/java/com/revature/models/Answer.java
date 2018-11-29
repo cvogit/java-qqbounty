@@ -21,19 +21,26 @@ public class Answer {
 	private int answerId;
 	
 	@NotNull
-	@Column
+	@Column(nullable=false)
 	private String description;
 	
-	//Timestamp is generated via a utility, leave null on API call
+	@NotNull
+	@Column(nullable=false)
+	private int userId;
+	
+	@Column(nullable=true)
 	private Timestamp submitted;
 
 	@NotNull
+	@Column(nullable=false)
 	private int votes;
 	
 	@NotNull
+	@Column(nullable=false)
 	private int statusId;
 
 	@NotNull
+	@Column(nullable=false)
 	private int bountyId;
 	
 	
@@ -42,66 +49,89 @@ public class Answer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Answer(int answerId, @NotNull String description, Timestamp submitted, @NotNull int votes,
-			@NotNull int statusId, @NotNull int bountyId) {
+
+	public Answer(int answerId, @NotNull String description, @NotNull int userId, Timestamp submitted,
+			@NotNull int votes, @NotNull int statusId, @NotNull int bountyId) {
 		super();
 		this.answerId = answerId;
 		this.description = description;
+		this.userId = userId;
 		this.submitted = submitted;
 		this.votes = votes;
 		this.statusId = statusId;
 		this.bountyId = bountyId;
 	}
 
+
 	public int getAnswerId() {
 		return answerId;
 	}
+
 
 	public void setAnswerId(int answerId) {
 		this.answerId = answerId;
 	}
 
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-
 	public String getDescription() {
 		return description;
 	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 
 	public Timestamp getSubmitted() {
 		return submitted;
 	}
 
+
 	public void setSubmitted(Timestamp submitted) {
 		this.submitted = submitted;
 	}
+
 
 	public int getVotes() {
 		return votes;
 	}
 
+
 	public void setVotes(int votes) {
 		this.votes = votes;
 	}
+
 
 	public int getStatusId() {
 		return statusId;
 	}
 
+
 	public void setStatusId(int statusId) {
 		this.statusId = statusId;
 	}
+
 
 	public int getBountyId() {
 		return bountyId;
 	}
 
+
 	public void setBountyId(int bountyId) {
 		this.bountyId = bountyId;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -112,6 +142,7 @@ public class Answer {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + statusId;
 		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
+		result = prime * result + userId;
 		result = prime * result + votes;
 		return result;
 	}
@@ -142,14 +173,19 @@ public class Answer {
 				return false;
 		} else if (!submitted.equals(other.submitted))
 			return false;
+		if (userId != other.userId)
+			return false;
 		if (votes != other.votes)
 			return false;
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Answer [answerId=" + answerId + ", description=" + description + ", submitted=" + submitted
-				+ ", votes=" + votes + ", statusId=" + statusId + ", bountyId=" + bountyId + "]";
+		return "Answer [answerId=" + answerId + ", description=" + description + ", userId=" + userId + ", submitted="
+				+ submitted + ", votes=" + votes + ", statusId=" + statusId + ", bountyId=" + bountyId + "]";
 	}
+
+	
 }

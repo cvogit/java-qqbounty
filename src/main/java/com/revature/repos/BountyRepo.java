@@ -1,5 +1,7 @@
 package com.revature.repos;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,6 +18,14 @@ public interface BountyRepo extends PagingAndSortingRepository<Bounty, Integer> 
 	Page<Bounty> findAll(Pageable pageable);
 	
 	Bounty getOne(Integer id);
+
+	Page<Bounty> findAllByOrderByVotesDesc(Pageable pageable);
+
+	Page<Bounty> findAllByOrderByAmountDesc(Pageable pageable);
+
+	Page<Bounty> findAllByOrderBySubmittedDesc(Pageable pageable);
+
+	Page<Bounty> findByBountyIdIn(Pageable pageable,List<Integer> bountyIds);
 
 }
 

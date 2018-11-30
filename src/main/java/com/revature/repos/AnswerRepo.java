@@ -21,4 +21,5 @@ public interface AnswerRepo extends  JpaRepository<Answer, Integer>{
 	
 	List<Answer> findByBountyId(int bountyId);
 	
+
 }

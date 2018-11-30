@@ -57,7 +57,7 @@ public class UserService {
 	 * @return Map<String, Object>, null
 	 */
 	public Map<String, Object> save(User pUser) {
-		pUser.setWalletId(sWalletService.newWallet().getWallet_id());
+		pUser.setWalletId(sWalletService.newWallet().getWalletId());
 		pUser.setRoleId(1);
 		pUser.setRating(0);
 		pUser.hashPassword();

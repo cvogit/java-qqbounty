@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -178,7 +179,7 @@ public class JwtUtil {
 			return false;
 		int tUserId = extractUserId(req);
 		Bounty tBounty = sBountyService.findById(pBountyId);
-		if(tBounty.getUserId() == tUserId)
+		if( tBounty.getUserId() == tUserId)
 			return true;
 		return false;
 	}

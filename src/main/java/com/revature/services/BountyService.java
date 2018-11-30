@@ -23,6 +23,7 @@ public class BountyService {
 		return ResponseMap.getNewMap("bounty_list", bountyRepo.findAll(pageable));
 	}
 	
+	//Don't Map!
 	public Bounty findById(int id) {
 		return bountyRepo.getOne(id);
 	}

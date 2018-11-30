@@ -58,9 +58,7 @@ public class BountyController {
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
   }
-// 	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
-// 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(bs.findAll()));
-//   }
+
 		
 	//check for logged in as admin for this	
 	@PatchMapping

@@ -38,4 +38,9 @@ public class WalletService {
 	}
 	
 	
+	public Wallet getOne(int id) {
+		return sWalletRepo.getOne(id);
+	}
+	
+	
 }

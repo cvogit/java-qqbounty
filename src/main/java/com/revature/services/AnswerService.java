@@ -2,8 +2,10 @@ package com.revature.services;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class AnswerService {
 
 	public Map<String, Object> findAll() {
 		List<Answer> answerList = answerRepo.findAll();
-
+		System.out.println(answerList.toString());
 		return ResponseMap.getNewMap("answers", getAnswerDto(answerList));
 	}
 
@@ -59,6 +61,12 @@ public class AnswerService {
 		answer.setVotes(0);
 		answer.setSubmitted(TsUtil.stampIt());
 
+		Answer updatedAnswer = answerRepo.save(answer);
+		return ResponseMap.getNewMap("answers", getAnswerDto(updatedAnswer));
+	}
+	
+	
+	public Map<String, Object> update(Answer answer) {
 		Answer updatedAnswer = answerRepo.save(answer);
 		return ResponseMap.getNewMap("answers", getAnswerDto(updatedAnswer));
 	}
@@ -94,13 +102,24 @@ public class AnswerService {
 	}
 
 	private List<AnswerDto> getAnswerDto(List<Answer> answerList) {
-		List<Integer> idList = answerList.stream().map(Answer::getAnswerId).collect(Collectors.toList());
+	    Set<Integer> idSet = answerList.stream().map(Answer::getUserId).collect(Collectors.toSet());
+	    List<Integer> idList = new ArrayList<Integer>(idSet);
+		System.out.println(idList.toString());
 		List<String> usernames = userRepo.findUsernames(idList);
+		System.out.println(usernames.toString());
+		
+		Map<Integer,String> map = new LinkedHashMap<Integer,String>();  // ordered
+
+	    for (int i=0; i<idList.size(); i++) {
+	      map.put(idList.get(i), usernames.get(i));    // is there a clearer way?
+	    }
+		
+		
 		Iterator<Answer> answerIterator = answerList.iterator();
-		Iterator<String> usernameIterator = usernames.iterator();
 		List<AnswerDto> answerDtoList = new ArrayList<AnswerDto>();
-		while (answerIterator.hasNext() && usernameIterator.hasNext()) {
-			answerDtoList.add(new AnswerDto(answerIterator.next(), usernameIterator.next()));
+		while (answerIterator.hasNext()) {
+			Answer answer = answerIterator.next();
+			answerDtoList.add(new AnswerDto(answer,map.get(answer.getUserId())));
 		}
 		return answerDtoList;
 	}

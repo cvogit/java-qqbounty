@@ -10,6 +10,7 @@ import com.revature.models.Wallet;
 @Repository
 public interface WalletRepo extends JpaRepository<Wallet, Integer> {
 
+	@SuppressWarnings("unchecked")
 	Wallet save(Wallet pWallet);
 	
 	Wallet getOne(int id);

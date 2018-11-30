@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.revature.dto.AnswerDto;
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name="answers")
@@ -62,6 +62,17 @@ public class Answer {
 		this.bountyId = bountyId;
 	}
 
+	public Answer(AnswerDto answerdto) {
+		super();
+		this.answerId = answerdto.getAnswerId();
+		this.description = answerdto.getDescription();
+		this.userId = answerdto.getUserId();
+		this.submitted = answerdto.getSubmitted();
+		this.votes = answerdto.getVotes();
+		this.statusId = answerdto.getStatusId();
+		this.bountyId = answerdto.getBountyId();
+	}
+	
 
 	public int getAnswerId() {
 		return answerId;

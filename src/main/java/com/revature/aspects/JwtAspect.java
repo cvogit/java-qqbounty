@@ -57,9 +57,10 @@ public class JwtAspect {
 	
 	@Around(" @annotation(com.revature.annotations.JwtUserOwnBounty)")
 	public Object jwtUserOwnBounty(ProceedingJoinPoint pjp) throws Throwable {
+		System.out.println("JKGHKFHJFGJGFJFGJFG");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		Map tParams = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-
+		System.out.println(tParams);
 		if(!sJwtUtil.isBountyOwner(request, Integer.parseInt((String) tParams.get("bountyId")))) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 		}

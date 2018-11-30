@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.annotations.JwtVerify;
 import com.revature.models.Answer;
+import com.revature.models.Bounty;
 import com.revature.services.AnswerService;
+import com.revature.services.BountyService;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
 
@@ -28,6 +30,9 @@ public class AnswerController {
 
 	@Autowired
 	private AnswerService as;
+	
+	@Autowired
+	private BountyService bs;
 	
 	@Autowired
 	private JwtUtil sJwtUtil;
@@ -64,6 +69,23 @@ public class AnswerController {
 	   	 System.out.println("Could not find user, check token.");
 	     return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Token not valid."));
 	  }
+	  
+	  Bounty bounty = bs.findById(pAnswer.getBountyId());
+	  if (bounty == null) {
+		 System.out.println("Bounty not found.");
+		 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty not found."));
+	  }
+	  if (bounty.getStatusId() != 1) {
+		  System.out.println("Bounty already answered or expired.");
+			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty already answered or expired."));
+	  }
+	  if (bounty.getUserId() == userId) {
+		  System.out.println("Bounty User is same as Answer User");
+			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty User is same as Answer User"));
+	  }
+	  
+	  
+	  
 	  pAnswer.setUserId(userId);
   
 		Map<String, Object> aResult = (Map<String, Object>) as.save(pAnswer);

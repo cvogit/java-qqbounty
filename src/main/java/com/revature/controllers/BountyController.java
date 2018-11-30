@@ -127,8 +127,8 @@ public class BountyController {
 	// get answers by bounty id
 	@GetMapping("{id}/answers")
 	@JwtVerify
-	public ResponseEntity<Map<String, Object>> findByBountyid(@PathVariable int id) {
-		Map<String, Object> tResult = (Map<String, Object>) as.findByBountyId(id);
+	public ResponseEntity<Map<String, Object>> findByBountyid(@PathVariable int id, Pageable page) {
+		Map<String, Object> tResult = (Map<String, Object>) as.findByBountyId(id,page);
 		if (tResult == null) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 		}
@@ -137,7 +137,7 @@ public class BountyController {
 	
 	
 	// check for registered user is logged in here
-		// get answers by bounty id
+		// get correct answer
 		@PatchMapping("{bid}/answers/{aid}")
 		@JwtUserOwnBounty
 		@Transactional

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,7 +39,7 @@ public class AnswerController {
 	private JwtUtil sJwtUtil;
 		
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> findAll(HttpServletRequest req) throws IOException {
+	public ResponseEntity<Map<String, Object>> findAll() throws IOException {
 		Map<String, Object> aResult = (Map<String, Object>) as.findAll();
 		if(aResult == null) {
 			System.out.println("No Answer List Found");

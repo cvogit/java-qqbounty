@@ -153,4 +153,3 @@ INSERT INTO qqbounty.products
 VALUES(3, 'wombo combo', 2000, 20);
 
 
-SELECT * FROM PRODUCTS;

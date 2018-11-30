@@ -34,7 +34,6 @@ public class BountyService {
 	@Autowired
 	private UserRepo userRepo;
 
-
 	@Autowired
 	private SubjectToBountyRepo subjectToBountyRepo;
 	
@@ -60,6 +59,24 @@ public class BountyService {
 		List<Integer> bountyIds  = subjectToBountyRepo.getListBountyIds(subjectIds);
 		return ResponseMap.getNewMap("bounty_list", getBountyDto(bountyRepo.findByBountyIdIn(pageable,bountyIds),pageable));
 	}
+
+
+  /*  EXAMPLE SAVE/UPDATE REQUEST 
+	* {
+  		"amount": 100, will be filled in by user
+  		"bountyId": 0, //automatically set
+  		"description": "testing wallet subtraction", user entry
+  		"picture": "", user upload
+  		"subject": [
+    	{
+      		"subjectId": 1 user entry
+    	}
+  					],
+  		"timer": 7000000, millseconds enter by user based on Date.now - future date
+	}
+		 */
+	//user id will be set in controller when verifying jwt
+	//set Timestamp upon new bounty creation
 
 	public Map<String, Object> save(Bounty bounty) {
 		bounty.setSubmitted(TsUtil.stampIt());

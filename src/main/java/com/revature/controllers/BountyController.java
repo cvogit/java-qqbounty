@@ -95,6 +95,7 @@ public class BountyController {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+
 	}
 	
 	@GetMapping("newest")

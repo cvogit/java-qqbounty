@@ -16,29 +16,29 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Wallet {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int wallet_id;
+	private int walletId;
 
-	@NotNull
+	
 	@Column(nullable=false)
 	private int balance;
-
-	public Wallet(int wallet_id, @NotNull int balance) {
+	
+	public Wallet() {
 		super();
-		this.wallet_id = wallet_id;
+		// TODO Auto-generated constructor stub
+	}
+
+	public Wallet(int walletId, int balance) {
+		super();
+		this.walletId = walletId;
 		this.balance = balance;
 	}
 	
-	public Wallet(@NotNull int balance) {
-		super();
-		this.balance = balance;
+	public int getWalletId() {
+		return walletId;
 	}
 
-	public int getWallet_id() {
-		return wallet_id;
-	}
-
-	public void setWallet_id(int wallet_id) {
-		this.wallet_id = wallet_id;
+	public void setWalletId(int walletId) {
+		this.walletId = walletId;
 	}
 
 	public int getBalance() {
@@ -48,4 +48,36 @@ public class Wallet {
 	public void setBalance(int balance) {
 		this.balance = balance;
 	}
+
+	@Override
+	public String toString() {
+		return "Wallet [walletId=" + walletId + ", balance=" + balance + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + balance;
+		result = prime * result + walletId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Wallet other = (Wallet) obj;
+		if (balance != other.balance)
+			return false;
+		if (walletId != other.walletId)
+			return false;
+		return true;
+	}
+	
+	
 }

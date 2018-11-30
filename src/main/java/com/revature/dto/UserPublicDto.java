@@ -6,7 +6,7 @@ public class UserPublicDto {
 	
 	private String username;
 	private String picture;
-	
+	private int walletId;
 	private int rating;
 
 	public UserPublicDto(User pUser) {
@@ -14,6 +14,7 @@ public class UserPublicDto {
 		this.username = pUser.getUsername();
 		this.picture = pUser.getPicture();
 		this.rating = pUser.getRating();
+		this.walletId = pUser.getWalletId();
 	}
 
 	public String getUsername() {
@@ -40,8 +41,19 @@ public class UserPublicDto {
 		this.rating = rating;
 	}
 
+	public int getWalletId() {
+		return walletId;
+	}
+
+	public void setWalletId(int walletId) {
+		this.walletId = walletId;
+	}
+
 	@Override
 	public String toString() {
-		return "UserPublicDto [username=" + username + ", picture=" + picture + ", rating=" + rating + "]";
+		return "UserPublicDto [username=" + username + ", picture=" + picture + ", walletId=" + walletId + ", rating="
+				+ rating + "]";
 	}
+	
+	
 }

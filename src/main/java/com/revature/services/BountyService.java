@@ -23,7 +23,6 @@ public class BountyService {
 	@Autowired
 	private SubjectRepo subjectRepo;
 
-
 	@Autowired
 	private SubjectToBountyRepo subjectToBountyRepo;
 	
@@ -52,17 +51,23 @@ public class BountyService {
 
 	
   /*  EXAMPLE SAVE/UPDATE REQUEST 
-		 * {
-         *   "amount": 150, 	     	any-amount
-         *   "description": "string",   any-string
-         *   "picture": "string",       any-string
-         *    "submitted": 0,           optional, auto sets to current date
-         *    "status_id": 1,           Set to one
-         *    "subject_id": 1,          Testing junction table 11/26 @ 2108
-         *    "timer": 0,               any-int
-         *    "user_id": 1,            valid user id 
-         *    "votes": 0                Set to 0
-         * }
+	* {
+  		"amount": 100, will be filled in by user
+  		"bountyId": 0, //automatically set
+  		"correctAnswerId": null, until chosen is null
+  		"description": "testing wallet subtraction", user entry
+  		"picture": "", user upload
+  		"statusId": 0, auto set to 1
+  		"subject": [
+    	{
+      		"subjectId": 1 user entry
+    	}
+  					],
+  		"submitted": null, auto set with timestamp util
+  		"timer": 7000000, millseconds enter by user based on Date.now - future date
+  		"userId": 2, need to extract this
+  		"votes": 0 zero at first
+	}
 		 */
 	//user id will be set in controller when verifying jwt
 	//set Timestamp upon new bounty creation

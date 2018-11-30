@@ -33,9 +33,9 @@ public class WalletService {
 		return ResponseMap.getNewMap("wallet", sWalletRepo.findById(id));
 	}
 	
-	//increase 
 	public Map<String, Object> update(Wallet wallet) {
 		return ResponseMap.getNewMap("wallet_update", sWalletRepo.save(wallet));
 	}
-
+	
+	
 }

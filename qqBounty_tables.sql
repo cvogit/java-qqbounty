@@ -115,41 +115,21 @@ CREATE TABLE UserProducts
 ALTER TABLE Answers ADD CONSTRAINT bounty_id_fk
 	FOREIGN KEY (bounty_id) REFERENCES Bounties (bounty_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-INSERT INTO qqbounty.roles (role_id, role) VALUES(1, 'user');
 
-INSERT INTO qqbounty.wallets
-(balance)
-VALUES(100);
+INSERT INTO roles (role_id, role) VALUES(1, 'user');
+INSERT INTO roles (role_id, role) VALUES(2, 'admin');
 
-INSERT INTO qqbounty.users
-(username, "password", email, picture, rating, wallet_id, role_id)
-VALUES('testuser', 'password', 'email@mail.com', '', 0, 1, 1);
+INSERT INTO bountystatus (bounty_status_id , bounty_status) VALUES(1, 'posted');
+INSERT INTO bountystatus (bounty_status_id , bounty_status) VALUES(2, 'answered');
+INSERT INTO bountystatus (bounty_status_id , bounty_status) VALUES(3, 'expired');
 
+INSERT INTO subjects (subject_id , subject) VALUES(1, 'Math');
+INSERT INTO subjects (subject_id , subject) VALUES(2, 'Programming');
 
-INSERT INTO qqbounty.bountystatus (bounty_status_id , bounty_status) VALUES(1, 'posted');
-INSERT INTO qqbounty.bountystatus (bounty_status_id , bounty_status) VALUES(2, 'answered');
-INSERT INTO qqbounty.bountystatus (bounty_status_id , bounty_status) VALUES(3, 'expired');
+INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(1, 'submitted');
+INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported');
+INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 
-INSERT INTO qqbounty.subjects (subject_id , subject) VALUES(1, 'Math');
-INSERT INTO qqbounty.subjects (subject_id , subject) VALUES(2, 'Programming');
-
-INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(1, 'submitted');
-INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported');
-INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
-
-
-INSERT INTO qqbounty.bounties (description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)VALUES('test bounty', CURRENT_TIMESTAMP, 100, CURRENT_TIMESTAMP+600, 7000000, 1, null, '', 1);
-
-INSERT INTO qqbounty.answers (answer_id, user_id,description,submitted,votes,status_id, bounty_id) VALUES(1,1, 'No answer given yet',CURRENT_TIMESTAMP,0,1,1);
-
-INSERT INTO qqbounty.products
-(product_id, product_name, product_credit, product_cost)
-VALUES(1, 'basic', 100, 1);
-INSERT INTO qqbounty.products
-(product_id, product_name, product_credit, product_cost)
-VALUES(2, 'deluxe', 1000, 10);
-INSERT INTO qqbounty.products
-(product_id, product_name, product_credit, product_cost)
-VALUES(3, 'wombo combo', 2000, 20);
-
-
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(1, 'basic', 100, 1);
+INSERT INTO qqbounty (product_id, product_name, product_credit, product_cost) VALUES(2, 'deluxe', 1000, 10);
+INSERT INTO qqbounty (product_id, product_name, product_credit, product_cost) VALUES(3, 'wombo combo', 2000, 20);

@@ -1,13 +1,15 @@
--- DROP TABLE answers CASCADE;
--- DROP TABLE answerstatus CASCADE;
--- DROP TABLE bounties CASCADE;
--- DROP TABLE bountystatus CASCADE;
--- DROP TABLE roles CASCADE;
--- DROP TABLE subjects CASCADE;
--- DROP TABLE users CASCADE;
--- DROP TABLE wallets CASCADE;
--- DROP TABLE SubjectsToBounties;
--- DROP TABLE AnswersToUsers;
+ DROP TABLE answers CASCADE;
+ DROP TABLE answerstatus CASCADE;
+ DROP TABLE bounties CASCADE;
+ DROP TABLE bountystatus CASCADE;
+ DROP TABLE roles CASCADE;
+ DROP TABLE subjects CASCADE;
+ DROP TABLE users CASCADE;
+ DROP TABLE wallets CASCADE;
+ DROP TABLE SubjectsToBounties;
+ DROP TABLE AnswersToUsers;
+ DROP TABLE Products CASCADE;
+ DROP TABLE UserProducts;
 
 
 CREATE TABLE Roles
@@ -87,11 +89,27 @@ CREATE TABLE SubjectsToBounties
 
 CREATE TABLE AnswersToUsers
 (    
-    vote_id	SERIAL 		PRIMARY KEY,
+    vote_id				SERIAL 		PRIMARY KEY,
     user_id		    	INTEGER		NOT NULL REFERENCES Users (user_id),
     answer_id			INTEGER		NOT NULL REFERENCES Answers (answer_id)
 );
 
+CREATE TABLE Products 
+
+(
+	product_id			SERIAL	    	PRIMARY KEY,
+	product_name 		VARCHAR (50)	NOT NULL,
+	product_credit		INTEGER			NOT NULL,
+	product_cost		INTEGER			NOT NULL
+);
+
+CREATE TABLE UserProducts
+(
+	user_product_id		SERIAL 		PRIMARY KEY,
+	user_id				INTEGER		NOT NULL REFERENCES Users (user_id),
+	product_id			INTEGER		NOT NULL REFERENCES Products (product_id),
+	purchase_date		TIMESTAMP	
+);
 
 
 ALTER TABLE Answers ADD CONSTRAINT bounty_id_fk
@@ -123,3 +141,15 @@ INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(3, 'b
 INSERT INTO qqbounty.bounties (description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)VALUES('test bounty', CURRENT_TIMESTAMP, 100, CURRENT_TIMESTAMP+600, 7000000, 1, null, '', 1);
 
 INSERT INTO qqbounty.answers (answer_id, user_id,description,submitted,votes,status_id, bounty_id) VALUES(1,1, 'No answer given yet',CURRENT_TIMESTAMP,0,1,1);
+
+INSERT INTO qqbounty.products
+(product_id, product_name, product_credit, product_cost)
+VALUES(1, 'basic', 100, 1);
+INSERT INTO qqbounty.products
+(product_id, product_name, product_credit, product_cost)
+VALUES(2, 'deluxe', 1000, 10);
+INSERT INTO qqbounty.products
+(product_id, product_name, product_credit, product_cost)
+VALUES(3, 'wombo combo', 2000, 20);
+
+

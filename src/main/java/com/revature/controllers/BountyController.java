@@ -26,6 +26,7 @@ import com.revature.annotations.JwtUserIsAdmin;
 import com.revature.annotations.JwtUserOwnBounty;
 import com.revature.annotations.JwtVerify;
 import com.revature.dto.AnswerDto;
+import com.revature.dto.BountyInputDto;
 import com.revature.models.Answer;
 import com.revature.models.Bounty;
 import com.revature.models.Wallet;
@@ -59,17 +60,14 @@ public class BountyController {
 	@ResponseBody
 	@PostMapping
 	@JwtVerify
-	public ResponseEntity<Map<String, Object>> save(@RequestBody Bounty pBounty, HttpServletRequest req) {
+	public ResponseEntity<Map<String, Object>> save(@RequestBody BountyInputDto bountyInput, HttpServletRequest req) {
 
-		JwtUtil j = new JwtUtil();
-		int id = j.extractUserId(req);
-		System.out.println(id);
-		String userData = us.findById(id).toString();
 		
-		if (TsUtil.stampIt().after(pBounty.getExpiration())) {
-			checkVotesAutomatically(pBounty.getBountyId());
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Answer Expired :("));
-		}
+		JwtUtil j = new JwtUtil();
+		int userId = j.extractUserId(req);
+		
+		
+		String userData = us.findById(userId).toString();
 		
 		// Subtract Balance
 		Pattern uPattern = Pattern.compile("walletId=(.*?),");
@@ -81,16 +79,16 @@ public class BountyController {
 		Wallet wallet = ws.getOne(xWalletId);
 		int walletBalance = wallet.getBalance();
 
-		if (walletBalance - pBounty.getAmount() < 0) {
+		if (walletBalance - bountyInput.getAmount() < 0) {
 			System.out.println("Not enough money in in wallet :(");
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Not enough money in in wallet :("));
 		}
-
-		wallet.setBalance(wallet.getBalance() - pBounty.getAmount());
+		
+		Bounty pBounty = new Bounty(bountyInput,userId);
+		
+		wallet.setBalance(wallet.getBalance() - bountyInput.getAmount());
 		ws.update(wallet);
 
-		// Save Bounty
-		pBounty.setUserId(id);
 		Map<String, Object> tResult = (Map<String, Object>) bs.save(pBounty);
 		if (tResult == null) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
@@ -228,7 +226,7 @@ public class BountyController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse("Updated Votes"));
 	}
 
-	private void checkVotesAutomatically(int bountyId) {
+	public void checkVotesAutomatically(int bountyId) {
 		Bounty bounty = bs.findById(bountyId);
 		@SuppressWarnings("unchecked")
 		List<AnswerDto> tempList = (List<AnswerDto>) as.findByBountyId(bountyId).get("answers");

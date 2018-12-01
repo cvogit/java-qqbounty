@@ -42,7 +42,7 @@ public class BountyService {
 	private SubjectToBountyRepo subjectToBountyRepo;
 
 	public Map<String, Object> findAll(Pageable pageable) {
-		return ResponseMap.getNewMap("bounty_list", getBountyDto(bountyRepo.findAll(pageable), pageable));
+		return ResponseMap.getNewMap("bounty_list", getBountyDto(bountyRepo.findAll(pageable,TsUtil.stampIt()), pageable));
 	}
 
 	public Map<String, Object> findAllByOrderByVotes(Pageable pageable) {
@@ -52,12 +52,12 @@ public class BountyService {
 
 	public Map<String, Object> findAllByOrderByAmount(Pageable pageable) {
 		return ResponseMap.getNewMap("bounty_list",
-				getBountyDto(bountyRepo.findAllByOrderByAmountDesc(pageable), pageable));
+				getBountyDto(bountyRepo.findAllByOrderByAmountDesc(pageable,TsUtil.stampIt()), pageable));
 	}
 
 	public Map<String, Object> findAllByOrderByNewest(Pageable pageable) {
 		return ResponseMap.getNewMap("bounty_list",
-				getBountyDto(bountyRepo.findAllByOrderBySubmittedDesc(pageable), pageable));
+				getBountyDto(bountyRepo.findAllByOrderBySubmittedDesc(pageable,TsUtil.stampIt()), pageable));
 	}
 
 	public Map<String, Object> findAllBySubjectTag(Pageable pageable, List<String> subjectsList) {
@@ -78,10 +78,7 @@ public class BountyService {
 	// set Timestamp upon new bounty creation
 
 	public Map<String, Object> save(Bounty bounty) {
-		bounty.setSubmitted(TsUtil.stampIt());
-		bounty.setStatusId(1);
-		bounty.setCorrectAnswerId(null);
-		bounty.setVotes(0);
+		//Auto sets in constructor now.
 		return ResponseMap.getNewMap("bounty", getBountyDto(bountyRepo.save(bounty)));
 	}
 	

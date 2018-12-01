@@ -35,8 +35,8 @@ public class BountyDto {
 		this.userId = bounty.getUserId();
 		this.username = username;
 		this.subject = bounty.getSubject();
-	}
-
+	}	
+	
 	public BountyDto() {
 		super();
 		// TODO Auto-generated constructor stub

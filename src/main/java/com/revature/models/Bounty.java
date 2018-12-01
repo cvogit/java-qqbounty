@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.revature.dto.BountyInputDto;
+import com.revature.util.TsUtil;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -88,7 +90,22 @@ public class Bounty {
 		this.userId = userId;
 		this.subject = subject;
 	}
-
+	
+	public Bounty(BountyInputDto inputBounty, int userId) {
+		super();
+		this.bountyId = bountyId;
+		this.description = inputBounty.getDescription();
+		this.submitted = TsUtil.stampIt();
+		this.amount = inputBounty.getAmount();
+		this.votes = 0;
+		this.expiration = TsUtil.expirationStampIt(inputBounty.getTimer());
+		this.statusId = 1;
+		this.correctAnswerId = null;
+		this.picture = inputBounty.getPicture();
+		this.userId = userId;
+		this.subject = inputBounty.getSubject();
+	}
+	
 	public int getBountyId() {
 		return bountyId;
 	}

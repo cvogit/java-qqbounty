@@ -10,4 +10,13 @@ public class TsUtil {
 		System.out.println(ts);
 		return ts;
 	}
+	
+	
+	public static Timestamp expirationStampIt(int hours) {
+		long unixTime = System.currentTimeMillis();
+		long millseconds = hours * 3600000;
+		Timestamp ts = new Timestamp(unixTime+millseconds);		
+		System.out.println(ts);
+		return ts;
+	}
 }

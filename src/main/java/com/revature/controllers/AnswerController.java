@@ -24,6 +24,7 @@ import com.revature.services.AnswerService;
 import com.revature.services.BountyService;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
+import com.revature.util.TsUtil;
 
 @RestController
 @RequestMapping(path = "answers")
@@ -38,6 +39,9 @@ public class AnswerController {
 	@Autowired
 	private JwtUtil sJwtUtil;
 		
+	@Autowired
+	private BountyController bc;
+	
 	@GetMapping
 	public ResponseEntity<Map<String, Object>> findAll() throws IOException {
 		Map<String, Object> aResult = (Map<String, Object>) as.findAll();
@@ -76,6 +80,10 @@ public class AnswerController {
 		 System.out.println("Bounty not found.");
 		 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty not found."));
 	  }
+	  if (TsUtil.stampIt().after(bounty.getExpiration())) {
+			bc.checkVotesAutomatically(bounty.getBountyId());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("B Expired :("));
+		}
 	  if (bounty.getStatusId() != 1) {
 		  System.out.println("Bounty already answered or expired.");
 			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty already answered or expired."));

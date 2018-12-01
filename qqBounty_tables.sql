@@ -70,7 +70,7 @@ CREATE TABLE Bounties
 	submitted   		TIMESTAMP,
 	amount 	    		INTEGER			NOT NULL DEFAULT 0,
 	votes 				INTEGER 		NOT NULL DEFAULT 0,
-	timer	 			INTEGER			NOT NULL,
+	expiration	 	    TIMESTAMP			NOT NULL,
 	status_id 			INTEGER 		NOT NULL REFERENCES BountyStatus (bounty_status_id),
 	correct_answer_id 	INTEGER	    	REFERENCES 	Answers (answer_id),
 	picture 			VARCHAR (150), 
@@ -120,6 +120,6 @@ INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(2, 'r
 INSERT INTO qqbounty.answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 
 
-INSERT INTO qqbounty.bounties (description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)VALUES('test bounty', CURRENT_TIMESTAMP, 100, 0, 7000000, 1, null, '', 1);
+INSERT INTO qqbounty.bounties (description, submitted, amount, votes, timer, status_id, correct_answer_id, picture, user_id)VALUES('test bounty', CURRENT_TIMESTAMP, 100, CURRENT_TIMESTAMP+600, 7000000, 1, null, '', 1);
 
 INSERT INTO qqbounty.answers (answer_id, user_id,description,submitted,votes,status_id, bounty_id) VALUES(1,1, 'No answer given yet',CURRENT_TIMESTAMP,0,1,1);

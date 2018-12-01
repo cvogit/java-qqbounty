@@ -15,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 import org.springframework.lang.Nullable;
 
@@ -46,7 +44,7 @@ public class Bounty {
 	private int votes;
 	
 	
-	private int timer;
+	private Timestamp expiration;
 	
 	
 	private int statusId;
@@ -75,20 +73,20 @@ public class Bounty {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bounty(int bountyId, @NotNull String description, Timestamp submitted, int amount, int votes, int timer,
-			int statusId, Integer correctAnswerId, String picture, int userId) {
+	public Bounty(int bountyId, String description, Timestamp submitted, int amount, int votes, Timestamp expiration,
+			int statusId, Integer correctAnswerId, String picture, int userId, Set<Subject> subject) {
 		super();
 		this.bountyId = bountyId;
 		this.description = description;
 		this.submitted = submitted;
 		this.amount = amount;
 		this.votes = votes;
-		this.timer = timer;
+		this.expiration = expiration;
 		this.statusId = statusId;
 		this.correctAnswerId = correctAnswerId;
 		this.picture = picture;
 		this.userId = userId;
-	
+		this.subject = subject;
 	}
 
 	public int getBountyId() {
@@ -131,12 +129,12 @@ public class Bounty {
 		this.votes = votes;
 	}
 
-	public int getTimer() {
-		return timer;
+	public Timestamp getExpiration() {
+		return expiration;
 	}
 
-	public void setTimer(int timer) {
-		this.timer = timer;
+	public void setExpiration(Timestamp expiration) {
+		this.expiration = expiration;
 	}
 
 	public int getStatusId() {
@@ -184,13 +182,14 @@ public class Bounty {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + amount;
-		result = prime * result + correctAnswerId;
 		result = prime * result + bountyId;
+		result = prime * result + ((correctAnswerId == null) ? 0 : correctAnswerId.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((expiration == null) ? 0 : expiration.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		result = prime * result + statusId;
+		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
 		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
-		result = prime * result + timer;
 		result = prime * result + userId;
 		result = prime * result + votes;
 		return result;
@@ -207,14 +206,22 @@ public class Bounty {
 		Bounty other = (Bounty) obj;
 		if (amount != other.amount)
 			return false;
-		if (correctAnswerId != other.correctAnswerId)
-			return false;
 		if (bountyId != other.bountyId)
+			return false;
+		if (correctAnswerId == null) {
+			if (other.correctAnswerId != null)
+				return false;
+		} else if (!correctAnswerId.equals(other.correctAnswerId))
 			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
+			return false;
+		if (expiration == null) {
+			if (other.expiration != null)
+				return false;
+		} else if (!expiration.equals(other.expiration))
 			return false;
 		if (picture == null) {
 			if (other.picture != null)
@@ -223,12 +230,15 @@ public class Bounty {
 			return false;
 		if (statusId != other.statusId)
 			return false;
+		if (subject == null) {
+			if (other.subject != null)
+				return false;
+		} else if (!subject.equals(other.subject))
+			return false;
 		if (submitted == null) {
 			if (other.submitted != null)
 				return false;
 		} else if (!submitted.equals(other.submitted))
-			return false;
-		if (timer != other.timer)
 			return false;
 		if (userId != other.userId)
 			return false;
@@ -237,14 +247,14 @@ public class Bounty {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Bounty [bountyId=" + bountyId + ", description=" + description + ", submitted=" + submitted
-				+ ", amount=" + amount + ", votes=" + votes + ", timer=" + timer + ", statusId=" + statusId
-				+ ", correctAnswerId=" + correctAnswerId + ", picture=" + picture + ", userId=" + userId + ", subject_id="
-				+ "]";
+				+ ", amount=" + amount + ", votes=" + votes + ", expiration=" + expiration + ", statusId=" + statusId
+				+ ", correctAnswerId=" + correctAnswerId + ", picture=" + picture + ", userId=" + userId + ", subject="
+				+ subject + "]";
 	}
+
 	
 	
 }

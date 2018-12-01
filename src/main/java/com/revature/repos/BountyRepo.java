@@ -1,11 +1,12 @@
 package com.revature.repos;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.revature.models.Bounty;
@@ -16,14 +17,18 @@ public interface BountyRepo extends JpaRepository<Bounty, Integer> {
 	@SuppressWarnings("unchecked")
 	Bounty save(Bounty pBounty);
 	
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by submitted asc")
 	Page<Bounty> findAll(Pageable pageable);
 	
 	Bounty getOne(Integer id);
 
-	Page<Bounty> findAllByOrderByVotesDesc(Pageable pageable);
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by votes desc")
+	Page<Bounty> findAllByOrderByVotes(Pageable pageable, Timestamp ts);
 
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by amount desc")
 	Page<Bounty> findAllByOrderByAmountDesc(Pageable pageable);
 
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by submitted desc")
 	Page<Bounty> findAllByOrderBySubmittedDesc(Pageable pageable);
 
 	Page<Bounty> findByBountyIdIn(Pageable pageable,List<Integer> bountyIds);

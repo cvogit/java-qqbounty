@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.revature.dto.AnswerDto;
@@ -45,6 +46,11 @@ public class AnswerService {
 		Answer answer = answerRepo.getOne(id);
 		return ResponseMap.getNewMap("answers", getAnswerDto(answer));
 	}
+	
+	public List<Answer> findAnswersByBountyIdsVotes(int id) {
+		return answerRepo.findByBountyId(id);
+	}
+	
 
 	public Map<String, Object> findByBountyId(int id) {
 		List<Answer> answerList = answerRepo.findByBountyId(id);
@@ -94,14 +100,31 @@ public class AnswerService {
 		System.out.println("voteValue not -1 or 1, voteValue is:" + voteValue);
 		return ResponseMap.getNewMap("vote_status", false);
 	}
+	
+	
+
+	 public int getMaxVotes(int id) {
+		 return answerRepo.getMaxVotes(id);
+	 }
+	 
+	 public List<Answer> getHighestAnswers(int voteNumber){
+		 return answerRepo.getHighestAnswers(voteNumber);
+	 }
+	
 
 	private AnswerDto getAnswerDto(Answer answer) {
+		if (answer == null) {
+			return null;
+		}
 		Integer id = answer.getUserId();
 		User username = userRepo.getOne(id);
 		return new AnswerDto(answer, username.getUsername());
 	}
 
 	private List<AnswerDto> getAnswerDto(List<Answer> answerList) {
+		if (answerList.size() == 0){
+			return new ArrayList<AnswerDto>();
+		}
 	    Set<Integer> idSet = answerList.stream().map(Answer::getUserId).collect(Collectors.toSet());
 	    List<Integer> idList = new ArrayList<Integer>(idSet);
 		System.out.println(idList.toString());
@@ -125,6 +148,7 @@ public class AnswerService {
 	}
 
 	private Page<AnswerDto> getAnswerDto(Page<Answer> pageAnswerList, Pageable page) {
+		
 		List<Answer> answerList = pageAnswerList.getContent();
 		List<AnswerDto> answerDtoList = getAnswerDto(answerList);
 		int start = (int) page.getOffset();

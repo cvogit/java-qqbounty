@@ -35,6 +35,7 @@ import com.revature.services.UserService;
 import com.revature.services.WalletService;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
+import com.revature.util.TsUtil;
 
 @RestController
 @RequestMapping(path = "bounties")
@@ -64,7 +65,12 @@ public class BountyController {
 		int id = j.extractUserId(req);
 		System.out.println(id);
 		String userData = us.findById(id).toString();
-
+		
+		if (TsUtil.stampIt().after(pBounty.getExpiration())) {
+			checkVotesAutomatically(pBounty.getBountyId());
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Answer Expired :("));
+		}
+		
 		// Subtract Balance
 		Pattern uPattern = Pattern.compile("walletId=(.*?),");
 		Matcher uMatcher = uPattern.matcher(userData);
@@ -74,16 +80,16 @@ public class BountyController {
 		// find wallet by id
 		Wallet wallet = ws.getOne(xWalletId);
 		int walletBalance = wallet.getBalance();
-		
-		if(walletBalance - pBounty.getAmount() < 0) {
+
+		if (walletBalance - pBounty.getAmount() < 0) {
 			System.out.println("Not enough money in in wallet :(");
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Not enough money in in wallet :("));
 		}
-		
+
 		wallet.setBalance(wallet.getBalance() - pBounty.getAmount());
 		ws.update(wallet);
 
-		//Save Bounty
+		// Save Bounty
 		pBounty.setUserId(id);
 		Map<String, Object> tResult = (Map<String, Object>) bs.save(pBounty);
 		if (tResult == null) {
@@ -206,6 +212,62 @@ public class BountyController {
 		JwtUtil j = new JwtUtil();
 		int id = j.extractUserId(req);
 
+		updateWallet(id, bounty.getAmount());
+
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+	}
+
+	@PatchMapping("answers")
+	public ResponseEntity<Map<String, Object>> chooseBestAnswer(@RequestBody String bountyList) {
+		List<String> filterBountyList = Arrays.asList(bountyList.substring(2, bountyList.length() - 2).split(","));
+
+		for (int i = 0; i < filterBountyList.size(); i++) {
+			checkVotesAutomatically(Integer.parseInt(filterBountyList.get(i)));
+		}
+
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse("Updated Votes"));
+	}
+
+	private void checkVotesAutomatically(int bountyId) {
+		Bounty bounty = bs.findById(bountyId);
+		@SuppressWarnings("unchecked")
+		List<AnswerDto> tempList = (List<AnswerDto>) as.findByBountyId(bountyId).get("answers");
+		System.out.println(tempList.size());
+		if (tempList.size() == 0) {
+			bounty.setStatusId(3);
+			int id = bounty.getUserId();
+			updateWallet(id, bounty.getAmount());
+		}else {
+			List<Answer> answers = as.getHighestAnswers(bountyId);
+			if (answers.size() > 1) {
+				int numOfAnswer = answers.size();
+				int bountyRewardSplit = bounty.getAmount() / numOfAnswer;
+				bounty.setStatusId(2);
+				answers.forEach(answer -> {
+					answer.setStatusId(3);
+					as.update(answer);
+					int id = answer.getUserId();
+					updateWallet(id, bountyRewardSplit);
+				});
+				bs.update(bounty);
+			} else if (answers.size() == 1) {
+				Answer answer = answers.get(0);
+				bounty.setCorrectAnswerId(answer.getAnswerId()); // Set correct answer to answer id.
+				bounty.setStatusId(2);
+				answer.setStatusId(3);
+				as.update(answer);
+				bs.update(bounty);
+				int id = answer.getUserId();
+				updateWallet(id, bounty.getAmount());
+			} else {
+				bounty.setStatusId(3);
+				int id = bounty.getUserId();
+				updateWallet(id, bounty.getAmount());
+			}
+		}
+	}
+
+	private void updateWallet(int id, int amount) {
 		String userData = us.findById(id).toString();
 
 		// extract balance
@@ -216,10 +278,8 @@ public class BountyController {
 
 		// find wallet by id
 		Wallet walletData = ws.getOne(xWalletId);
-		walletData.setBalance(walletData.getBalance() + bounty.getAmount());
+		walletData.setBalance(walletData.getBalance() + amount);
 		ws.update(walletData);
-	
-		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 
 }

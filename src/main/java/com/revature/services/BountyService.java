@@ -47,7 +47,7 @@ public class BountyService {
 
 	public Map<String, Object> findAllByOrderByVotes(Pageable pageable) {
 		return ResponseMap.getNewMap("bounty_list",
-				getBountyDto(bountyRepo.findAllByOrderByVotesDesc(pageable), pageable));
+				getBountyDto(bountyRepo.findAllByOrderByVotes(pageable,TsUtil.stampIt()), pageable));
 	}
 
 	public Map<String, Object> findAllByOrderByAmount(Pageable pageable) {
@@ -97,12 +97,18 @@ public class BountyService {
 	}
 
 	private BountyDto getBountyDto(Bounty bounty) {
+		if (bounty == null) {
+			return null;
+		}
 		Integer id = bounty.getUserId();
 		User username = userRepo.getOne(id);
 		return new BountyDto(bounty, username.getUsername());
 	}
 
 	private List<BountyDto> getBountyDto(List<Bounty> bountyList) {
+		if (bountyList.size() == 0) {
+			return new ArrayList<BountyDto>();
+		}
 		Set<Integer> idSet = bountyList.stream().map(Bounty::getUserId).collect(Collectors.toSet());
 		List<Integer> idList = new ArrayList<Integer>(idSet);
 		System.out.println(idList.toString());
@@ -133,5 +139,7 @@ public class BountyService {
 		Page<BountyDto> pages = new PageImpl<BountyDto>(bountyDtoList.subList(start, end), page, bountyDtoList.size());
 		return pages;
 	}
+
+
 
 }

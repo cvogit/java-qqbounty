@@ -131,5 +131,5 @@ INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported')
 INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 
 INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(1, 'basic', 100, 1);
-INSERT INTO qqbounty (product_id, product_name, product_credit, product_cost) VALUES(2, 'deluxe', 1000, 10);
-INSERT INTO qqbounty (product_id, product_name, product_credit, product_cost) VALUES(3, 'wombo combo', 2000, 20);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(2, 'deluxe', 1000, 10);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(3, 'wombo combo', 2000, 20);

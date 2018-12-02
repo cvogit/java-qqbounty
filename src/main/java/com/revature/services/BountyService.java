@@ -63,6 +63,11 @@ public class BountyService {
 		return ResponseMap.getNewMap("bounty_list",
 				getBountyDto(bountyRepo.findAllByOrderBySubmittedDesc(pageable,TsUtil.stampIt()), pageable));
 	}
+	
+	public Map<String, Object> findAllByOrderByOldest(Pageable pageable) {
+		return ResponseMap.getNewMap("bounty_list",
+				getBountyDto(bountyRepo.findAllByOrderByExpirationDesc(pageable,TsUtil.stampIt()), pageable));
+	}
 
 	public Map<String, Object> findAllBySubjectTag(Pageable pageable, List<String> subjectsList) {
 		List<Integer> subjectIds = subjectRepo.getListSubjectId(subjectsList);

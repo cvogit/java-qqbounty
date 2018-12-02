@@ -30,6 +30,9 @@ public interface BountyRepo extends JpaRepository<Bounty, Integer> {
 
 	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts  AND statusId = 1 order by submitted desc")
 	Page<Bounty> findAllByOrderBySubmittedDesc(Pageable pageable, Timestamp ts);
+	
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts  AND statusId = 1 order by expiration desc")
+	Page<Bounty> findAllByOrderByExpirationDesc(Pageable pageable, Timestamp ts);
 
 	Page<Bounty> findByBountyIdIn(Pageable pageable,List<Integer> bountyIds);
 

@@ -70,7 +70,7 @@ public class AnswerController {
 	public  ResponseEntity<Map<String, Object>> save(@RequestBody Answer pAnswer,HttpServletRequest req) throws IOException{
 		
 	  int userId = sJwtUtil.extractUserId(req);
-	  System.out.println(userId);
+	  System.out.println("userId is" + userId);
 	  if (userId == 0) {
 	   	 System.out.println("Could not find user, check token.");
 	     return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Token not valid."));

@@ -217,11 +217,8 @@ public class BountyController {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 		}
 
-		JwtUtil j = new JwtUtil();
-		int id = j.extractUserId(req);
 
-		updateWallet(id, bounty.getAmount());
-
+		updateWallet(answer.getUserId(),bounty.getAmount());
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 

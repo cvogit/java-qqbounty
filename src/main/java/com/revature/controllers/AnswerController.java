@@ -80,14 +80,15 @@ public class AnswerController {
 		 System.out.println("Bounty not found.");
 		 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty not found."));
 	  }
+	  if (bounty.getStatusId() == 2) {
+		  System.out.println("Bounty already answered");
+			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty already answered."));
+	  }
 	  if (TsUtil.stampIt().after(bounty.getExpiration())) {
 			bc.checkVotesAutomatically(bounty.getBountyId());
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("B Expired :("));
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty Expired :("));
 		}
-	  if (bounty.getStatusId() != 1) {
-		  System.out.println("Bounty already answered or expired.");
-			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty already answered or expired."));
-	  }
+	  
 	  if (bounty.getUserId() == userId) {
 		  System.out.println("Bounty User is same as Answer User");
 			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty User is same as Answer User"));

@@ -17,18 +17,18 @@ public interface BountyRepo extends JpaRepository<Bounty, Integer> {
 	@SuppressWarnings("unchecked")
 	Bounty save(Bounty pBounty);
 	
-	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts")
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts AND  statusId = 1 ")
 	Page<Bounty> findAll(Pageable pageable, Timestamp ts);
 	
 	Bounty getOne(Integer id);
 
-	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by votes desc")
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts AND statusId = 1 order by votes desc")
 	Page<Bounty> findAllByOrderByVotes(Pageable pageable, Timestamp ts);
 
-	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by amount desc")
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts  AND statusId = 1  order by amount desc")
 	Page<Bounty> findAllByOrderByAmountDesc(Pageable pageable, Timestamp ts);
 
-	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts order by submitted desc")
+	@Query(value = "SELECT b FROM Bounty b WHERE expiration > :ts  AND statusId = 1 order by submitted desc")
 	Page<Bounty> findAllByOrderBySubmittedDesc(Pageable pageable, Timestamp ts);
 
 	Page<Bounty> findByBountyIdIn(Pageable pageable,List<Integer> bountyIds);

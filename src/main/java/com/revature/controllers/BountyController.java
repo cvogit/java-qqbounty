@@ -111,7 +111,7 @@ public class BountyController {
 	@GetMapping("subject")
 	public ResponseEntity<Map<String, Object>> findAllBySubjectTags(Pageable pageable,
 			@RequestParam(value = "subjects", required = true) String[] subjects) {
-
+		System.out.println(pageable);
 		List<String> subjectsList = Arrays.asList(subjects);
 
 		System.out.println(subjectsList);
@@ -170,7 +170,6 @@ public class BountyController {
 	// check for registered user is logged in here
 	// get answers by bounty id
 	@GetMapping("{id}/answers")
-	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findByBountyid(@PathVariable int id, Pageable page) {
 		Map<String, Object> tResult = (Map<String, Object>) as.findByBountyId(id, page);
 		if (tResult == null) {

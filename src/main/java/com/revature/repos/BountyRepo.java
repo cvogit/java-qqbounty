@@ -33,5 +33,7 @@ public interface BountyRepo extends JpaRepository<Bounty, Integer> {
 
 	Page<Bounty> findByBountyIdIn(Pageable pageable,List<Integer> bountyIds);
 
+	@Query(value = "SELECT b FROM Bounty b WHERE userId =  :id")
+	Page<Bounty> findUserBounties(Pageable pageable, int id);
 }
 

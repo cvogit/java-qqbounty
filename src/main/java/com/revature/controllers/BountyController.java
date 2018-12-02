@@ -66,7 +66,7 @@ public class BountyController {
 		JwtUtil j = new JwtUtil();
 		int userId = j.extractUserId(req);
 		
-		
+		System.out.println("User Id: " + userId);
 		String userData = us.findById(userId).toString();
 		
 		// Subtract Balance

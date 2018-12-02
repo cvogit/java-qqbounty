@@ -9,6 +9,7 @@ import com.revature.models.Subject;
 
 public class BountyDto {
 	private int bountyId;
+	private String title;
 	private String description;
 	private Timestamp submitted;
 	private int amount;
@@ -24,6 +25,7 @@ public class BountyDto {
 	public BountyDto(Bounty bounty, String username) {
 		super();
 		this.bountyId = bounty.getBountyId();
+		this.title = bounty.getTitle();
 		this.description = bounty.getDescription();
 		this.submitted = bounty.getSubmitted();
 		this.amount = bounty.getAmount();
@@ -50,6 +52,14 @@ public class BountyDto {
 		this.bountyId = bountyId;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -144,6 +154,7 @@ public class BountyDto {
 		int result = 1;
 		result = prime * result + amount;
 		result = prime * result + bountyId;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((correctAnswerId == null) ? 0 : correctAnswerId.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((expiration == null) ? 0 : expiration.hashCode());
@@ -179,6 +190,11 @@ public class BountyDto {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
 			return false;
 		if (expiration == null) {
 			if (other.expiration != null)
@@ -216,7 +232,7 @@ public class BountyDto {
 
 	@Override
 	public String toString() {
-		return "BountyDto [bountyId=" + bountyId + ", description=" + description + ", submitted=" + submitted
+		return "BountyDto [bountyId=" + bountyId + ", description=" + description + ", title=" + title +", submitted=" + submitted
 				+ ", amount=" + amount + ", votes=" + votes + ", expiration=" + expiration + ", statusId=" + statusId
 				+ ", correctAnswerId=" + correctAnswerId + ", picture=" + picture + ", userId=" + userId + ", username="
 				+ username + ", subject=" + subject + "]";

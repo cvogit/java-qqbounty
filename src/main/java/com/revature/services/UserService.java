@@ -18,9 +18,11 @@ import com.revature.dto.UserPublicDto;
 import com.revature.dto.UserUpdateDto;
 import com.revature.models.User;
 import com.revature.models.Wallet;
+import com.revature.repos.BountyRepo;
 import com.revature.repos.UserRepo;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
+import com.revature.util.TsUtil;
 
 @Service
 public class UserService {
@@ -129,4 +131,5 @@ public class UserService {
 			return null;
 		return ResponseMap.getNewMap("user", new UserProfileDto(tUser, balance));
 	}
+	
 }

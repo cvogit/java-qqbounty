@@ -278,5 +278,20 @@ public class BountyController {
 		walletData.setBalance(walletData.getBalance() + amount);
 		ws.update(walletData);
 	}
+	
+	// check that registered user is logged in here
+		@GetMapping("user")
+		@JwtVerify
+		public ResponseEntity<Map<String, Object>> findUserBounties(Pageable pageable, HttpServletRequest req) {
+			//extract user id
+			JwtUtil j = new JwtUtil();
+			int id = j.extractUserId(req);
+			
+			Map<String, Object> tResult = (Map<String, Object>) bs.findUserBounties(pageable, id);
+			if (tResult == null) {
+				return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+			}
+			return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+		}
 
 }

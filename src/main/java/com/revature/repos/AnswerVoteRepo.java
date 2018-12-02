@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.revature.models.Answer;
-import com.revature.models.Vote;
+import com.revature.models.AnswerVote;
 @Repository
-public interface VoteRepo extends JpaRepository<Vote, Integer> {
+public interface AnswerVoteRepo extends JpaRepository<AnswerVote, Integer> {
 
 		@SuppressWarnings("unchecked")
-		Vote save(Vote vote); 
+		AnswerVote save(AnswerVote answerVote); 
 		
-		List<Vote> findByAnswerIdAndUserId(int answerId,int userId);
+		List<AnswerVote> findByAnswerIdAndUserId(int answerId,int userId);
 	}

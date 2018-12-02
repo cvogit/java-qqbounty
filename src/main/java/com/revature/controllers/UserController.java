@@ -105,4 +105,15 @@ public class UserController {
 		}
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
+	
+	//Get all products
+		@GetMapping("info")
+		@JwtVerify
+		public ResponseEntity<Map<String, Object>> userInfo(HttpServletRequest req) {
+		Map<String, Object> tResult = (Map<String, Object>) sUserService.userInfo(req);
+			if(tResult == null) {
+				return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+			}
+				return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+		}
 }

@@ -68,11 +68,12 @@ CREATE TABLE Subjects
 CREATE TABLE Bounties
 (
 	bounty_id  			SERIAL 		    PRIMARY KEY,
+	title				VARCHAR(127)	NOT NULL,
 	description 		VARCHAR(511)	NOT NULL, 
 	submitted   		TIMESTAMP,
 	amount 	    		INTEGER			NOT NULL DEFAULT 0,
 	votes 				INTEGER 		NOT NULL DEFAULT 0,
-	expiration	 	    TIMESTAMP			NOT NULL,
+	expiration	 	    TIMESTAMP		NOT NULL,
 	status_id 			INTEGER 		NOT NULL REFERENCES BountyStatus (bounty_status_id),
 	correct_answer_id 	INTEGER	    	REFERENCES 	Answers (answer_id),
 	picture 			VARCHAR (150), 
@@ -133,3 +134,9 @@ INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(1, 'basic', 100, 1);
 INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(2, 'deluxe', 1000, 10);
 INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(3, 'wombo combo', 2000, 20);
+
+INSERT INTO qqbounty.bounties
+(title, description, submitted, amount, votes, expiration, status_id, correct_answer_id, picture, user_id)
+VALUES('This Is A Title', 'what is the meaning of life', '', 100, 0, '12-31-2018', 1, null, '', 1);
+
+SELECT * FROM BOUNTIES;

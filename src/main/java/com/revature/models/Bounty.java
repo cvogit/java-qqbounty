@@ -31,6 +31,8 @@ public class Bounty {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bountyId;
 	
+	@Column
+	private String title;
 	
 	@Column
 	private String description;
@@ -75,12 +77,13 @@ public class Bounty {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bounty(int bountyId, String description, Timestamp submitted, int amount, int votes, Timestamp expiration,
+	public Bounty(int bountyId, String title, String description, Timestamp submitted, int amount, int votes, Timestamp expiration,
 			int statusId, Integer correctAnswerId, String picture, int userId, Set<Subject> subject) {
 		super();
 		this.bountyId = bountyId;
+		this.title = title;
 		this.description = description;
-		this.submitted = submitted;
+		this.submitted = TsUtil.stampIt();
 		this.amount = amount;
 		this.votes = votes;
 		this.expiration = expiration;
@@ -94,6 +97,7 @@ public class Bounty {
 	public Bounty(BountyInputDto inputBounty, int userId) {
 		super();
 		this.bountyId = bountyId;
+		this.title = inputBounty.getTitle();
 		this.description = inputBounty.getDescription();
 		this.submitted = TsUtil.stampIt();
 		this.amount = inputBounty.getAmount();
@@ -114,6 +118,15 @@ public class Bounty {
 		this.bountyId = bountyId;
 	}
 
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTile(String title) {
+		this.title = title;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -201,6 +214,7 @@ public class Bounty {
 		result = prime * result + amount;
 		result = prime * result + bountyId;
 		result = prime * result + ((correctAnswerId == null) ? 0 : correctAnswerId.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((expiration == null) ? 0 : expiration.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
@@ -235,6 +249,11 @@ public class Bounty {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		if (expiration == null) {
 			if (other.expiration != null)
 				return false;
@@ -266,7 +285,7 @@ public class Bounty {
 
 	@Override
 	public String toString() {
-		return "Bounty [bountyId=" + bountyId + ", description=" + description + ", submitted=" + submitted
+		return "Bounty [bountyId=" + bountyId + ", description=" + description + ", title=" + title +", submitted=" + submitted
 				+ ", amount=" + amount + ", votes=" + votes + ", expiration=" + expiration + ", statusId=" + statusId
 				+ ", correctAnswerId=" + correctAnswerId + ", picture=" + picture + ", userId=" + userId + ", subject="
 				+ subject + "]";

@@ -70,16 +70,19 @@ public class AnswerController {
 	public  ResponseEntity<Map<String, Object>> save(@RequestBody Answer pAnswer,HttpServletRequest req) throws IOException{
 		
 	  int userId = sJwtUtil.extractUserId(req);
+	  System.out.println(userId);
 	  if (userId == 0) {
 	   	 System.out.println("Could not find user, check token.");
 	     return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Token not valid."));
 	  }
-	  
+	 
 	  Bounty bounty = bs.findById(pAnswer.getBountyId());
+	
 	  if (bounty == null) {
 		 System.out.println("Bounty not found.");
 		 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty not found."));
 	  }
+	  System.out.println(bounty.getUserId());
 	  if (bounty.getStatusId() == 2) {
 		  System.out.println("Bounty already answered");
 			 return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Bounty already answered."));
@@ -117,7 +120,7 @@ public class AnswerController {
 //	}
 	
 	@JwtVerify
-	@PatchMapping("{id}")
+	@PatchMapping("{id}/vote")
 	public ResponseEntity<Map<String, Object>> updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
 		int userId = sJwtUtil.extractUserId(req);
 		

@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,9 @@ public class BountyController {
 	@Autowired
 	private WalletService ws;
 
+	@Autowired
+	private JwtUtil sJwtUtil;
+	
 	// check for logged in user here
 	// will pass user id from extracted jwt here
 	// add subjects after creating bounty
@@ -99,7 +103,6 @@ public class BountyController {
 
 	// check that registered user is logged in here
 	@GetMapping
-	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findAll(Pageable pageable) {
 		Map<String, Object> tResult = (Map<String, Object>) bs.findAll(pageable);
 		if (tResult == null) {
@@ -143,8 +146,16 @@ public class BountyController {
 	}
 
 	@GetMapping("newest")
-	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findAllByOrderByNewest(Pageable pageable) {
+		Map<String, Object> tResult = (Map<String, Object>) bs.findAllByOrderByNewest(pageable);
+		if (tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+	}
+	
+	@GetMapping("oldest")
+	public ResponseEntity<Map<String, Object>> findAllByOrderByOldest(Pageable pageable) {
 		Map<String, Object> tResult = (Map<String, Object>) bs.findAllByOrderByNewest(pageable);
 		if (tResult == null) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
@@ -225,6 +236,24 @@ public class BountyController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse("Updated Votes"));
 	}
 
+	@JwtVerify
+	@PatchMapping("{id}/vote")
+	public ResponseEntity<Map<String, Object>> updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
+		int userId = sJwtUtil.extractUserId(req);
+		
+		Map<String, Object> bResult = (Map<String, Object>) bs.updateVote(id,userId,voteValue);
+		
+		System.out.println("Vote request is " + (boolean) bResult.get("vote_status") );
+		
+		
+		if((boolean) bResult.get("vote_status") == false) {
+			System.out.println("Vote did not go through");
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Already Voted"));
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(bResult));
+	}
+	
+	
 	public void checkVotesAutomatically(int bountyId) {
 		Bounty bounty = bs.findById(bountyId);
 		@SuppressWarnings("unchecked")

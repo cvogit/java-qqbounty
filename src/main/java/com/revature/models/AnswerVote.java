@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name="answerstousers")
-public class Vote {
+public class AnswerVote {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +27,12 @@ public class Vote {
 	@Column
 	private int answerId;
 
-	public Vote() {
+	public AnswerVote() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Vote(int voteId, @NotNull int userId, @NotNull int answerId) {
+	public AnswerVote(int voteId, @NotNull int userId, @NotNull int answerId) {
 		super();
 		this.voteId = voteId;
 		this.userId = userId;
@@ -81,7 +81,7 @@ public class Vote {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vote other = (Vote) obj;
+		AnswerVote other = (AnswerVote) obj;
 		if (answerId != other.answerId)
 			return false;
 		if (userId != other.userId)

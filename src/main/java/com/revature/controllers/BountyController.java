@@ -99,7 +99,6 @@ public class BountyController {
 
 	// check that registered user is logged in here
 	@GetMapping
-	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findAll(Pageable pageable) {
 		Map<String, Object> tResult = (Map<String, Object>) bs.findAll(pageable);
 		if (tResult == null) {
@@ -143,8 +142,16 @@ public class BountyController {
 	}
 
 	@GetMapping("newest")
-	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findAllByOrderByNewest(Pageable pageable) {
+		Map<String, Object> tResult = (Map<String, Object>) bs.findAllByOrderByNewest(pageable);
+		if (tResult == null) {
+			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
+		}
+		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+	}
+	
+	@GetMapping("oldest")
+	public ResponseEntity<Map<String, Object>> findAllByOrderByOldest(Pageable pageable) {
 		Map<String, Object> tResult = (Map<String, Object>) bs.findAllByOrderByNewest(pageable);
 		if (tResult == null) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());

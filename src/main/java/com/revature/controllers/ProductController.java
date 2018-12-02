@@ -25,7 +25,6 @@ public class ProductController {
 	
 	//Get all products
 	@GetMapping
-	@JwtVerify
 	public ResponseEntity<Map<String, Object>> findAll() {
 	Map<String, Object> tResult = (Map<String, Object>) ps.findAll();
 		if(tResult == null) {

@@ -105,7 +105,6 @@ CREATE TABLE BountiesToUsers
 
 
 CREATE TABLE Products 
-
 (
 	product_id			SERIAL	    	PRIMARY KEY,
 	product_name 		VARCHAR (50)	NOT NULL,
@@ -140,8 +139,8 @@ INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(1, 'submitted'
 INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported');
 INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 
-INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(1, 'basic', 100, 1);
-INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(2, 'deluxe', 1000, 10);
-INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(3, 'wombo combo', 2000, 20);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(1, 'Basic', 100, 1);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(2, 'Deluxe', 1100, 10);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(3, 'Wombo Combo', 3000, 20);
 
 SELECT * FROM BOUNTIES;

@@ -14,9 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.revature.dto.AnswerDto;
 import com.revature.dto.BountyDto;
-import com.revature.models.Answer;
 import com.revature.models.Bounty;
 import com.revature.models.User;
 import com.revature.repos.BountyRepo;
@@ -136,6 +134,11 @@ public class BountyService {
 		Page<BountyDto> pages = new PageImpl<BountyDto>(bountyDtoList.subList(start, end), page, bountyDtoList.size());
 		return pages;
 	}
+	
+	public Map<String, Object> findUserBounties(Pageable pageable, int id) {
+		return ResponseMap.getNewMap("bounty_list", getBountyDto(bountyRepo.findUserBounties(pageable, id), pageable));
+	}
+
 
 
 

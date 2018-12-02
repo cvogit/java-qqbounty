@@ -106,7 +106,7 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 	}
 	
-	//Get all products
+	//Get user info
 		@GetMapping("info")
 		@JwtVerify
 		public ResponseEntity<Map<String, Object>> userInfo(HttpServletRequest req) {
@@ -116,4 +116,5 @@ public class UserController {
 			}
 				return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
 		}
+		
 }

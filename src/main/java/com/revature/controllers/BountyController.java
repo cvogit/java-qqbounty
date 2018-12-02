@@ -156,7 +156,7 @@ public class BountyController {
 	
 	@GetMapping("oldest")
 	public ResponseEntity<Map<String, Object>> findAllByOrderByOldest(Pageable pageable) {
-		Map<String, Object> tResult = (Map<String, Object>) bs.findAllByOrderByNewest(pageable);
+		Map<String, Object> tResult = (Map<String, Object>) bs.findAllByOrderByOldest(pageable);
 		if (tResult == null) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 		}

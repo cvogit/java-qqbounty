@@ -15,7 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.revature.dto.BountyDto;
+import com.revature.models.Answer;
+import com.revature.models.AnswerVote;
 import com.revature.models.Bounty;
+import com.revature.models.BountyVote;
 import com.revature.models.User;
 import com.revature.repos.BountyRepo;
 import com.revature.repos.SubjectRepo;
@@ -38,6 +41,9 @@ public class BountyService {
 
 	@Autowired
 	private SubjectToBountyRepo subjectToBountyRepo;
+	
+	@Autowired
+	private VoteService voteService;
 
 	public Map<String, Object> findAll(Pageable pageable) {
 		return ResponseMap.getNewMap("bounty_list", getBountyDto(bountyRepo.findAll(pageable,TsUtil.stampIt()), pageable));
@@ -64,6 +70,26 @@ public class BountyService {
 		return ResponseMap.getNewMap("bounty_list",
 				getBountyDto(bountyRepo.findByBountyIdIn(pageable, bountyIds), pageable));
 	}
+	
+	public Map<String, Object> updateVote(int bountyId, int userId, int voteValue) {
+		Bounty bounty = bountyRepo.getOne(bountyId);
+		List<BountyVote> bountyVotes = voteService.findByBountyIdAndUserId(bountyId, userId);
+
+		if (bountyVotes.size() >= 1) {
+			System.out.println("User: " + userId + "already voted for bounty: " + bountyId);
+			return ResponseMap.getNewMap("vote_status", false);
+		}
+
+		if (voteValue == 1 || voteValue == -1) {
+			bounty.setVotes(bounty.getVotes() + voteValue);
+			bountyRepo.save(bounty);
+			voteService.saveBountyVote(new BountyVote(0, userId, bountyId));
+			return ResponseMap.getNewMap("vote_status", true);
+		}
+		System.out.println("voteValue not -1 or 1, voteValue is:" + voteValue);
+		return ResponseMap.getNewMap("vote_status", false);
+	}
+	
 
 	/*
 	 * EXAMPLE SAVE/UPDATE REQUEST { "amount": 100, will be filled in by user

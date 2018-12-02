@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.revature.dto.AnswerDto;
 import com.revature.models.Answer;
 import com.revature.models.User;
-import com.revature.models.Vote;
+import com.revature.models.AnswerVote;
 import com.revature.repos.AnswerRepo;
 import com.revature.repos.UserRepo;
 import com.revature.util.ResponseMap;
@@ -84,9 +84,9 @@ public class AnswerService {
 
 	public Map<String, Object> updateVote(int answerId, int userId, int voteValue) {
 		Answer answer = answerRepo.getOne(answerId);
-		List<Vote> votes = voteService.findByAnswerIdAndUserId(answerId, userId);
+		List<AnswerVote> answerVotes = voteService.findByAnswerIdAndUserId(answerId, userId);
 
-		if (votes.size() >= 1) {
+		if (answerVotes.size() >= 1) {
 			System.out.println("User: " + userId + "already voted for answer: " + answerId);
 			return ResponseMap.getNewMap("vote_status", false);
 		}
@@ -94,7 +94,7 @@ public class AnswerService {
 		if (voteValue == 1 || voteValue == -1) {
 			answer.setVotes(answer.getVotes() + voteValue);
 			answerRepo.save(answer);
-			voteService.save(new Vote(0, userId, answerId));
+			voteService.saveAnswerVote(new AnswerVote(0, userId, answerId));
 			return ResponseMap.getNewMap("vote_status", true);
 		}
 		System.out.println("voteValue not -1 or 1, voteValue is:" + voteValue);

@@ -120,7 +120,7 @@ public class AnswerController {
 //	}
 	
 	@JwtVerify
-	@PatchMapping("{id}")
+	@PatchMapping("{id}/vote")
 	public ResponseEntity<Map<String, Object>> updateVote(@PathVariable int id, @RequestParam(value = "voteValue", required = true) int voteValue, HttpServletRequest req) throws IOException {
 		int userId = sJwtUtil.extractUserId(req);
 		

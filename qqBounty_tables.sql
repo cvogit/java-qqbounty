@@ -8,7 +8,7 @@
  DROP TABLE wallets CASCADE;
  DROP TABLE SubjectsToBounties;
  DROP TABLE AnswersToUsers;
-  DROP TABLE BountiesToUsers;
+ DROP TABLE BountiesToUsers;
  DROP TABLE Products CASCADE;
  DROP TABLE UserProducts;
 

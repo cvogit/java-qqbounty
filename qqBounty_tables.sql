@@ -8,6 +8,7 @@
  DROP TABLE wallets CASCADE;
  DROP TABLE SubjectsToBounties;
  DROP TABLE AnswersToUsers;
+ DROP TABLE BountiesToUsers;
  DROP TABLE Products CASCADE;
  DROP TABLE UserProducts;
 
@@ -94,6 +95,14 @@ CREATE TABLE AnswersToUsers
     user_id		    	INTEGER		NOT NULL REFERENCES Users (user_id),
     answer_id			INTEGER		NOT NULL REFERENCES Answers (answer_id)
 );
+
+CREATE TABLE BountiesToUsers
+(    
+    vote_id				SERIAL 		PRIMARY KEY,
+    user_id		    	INTEGER		NOT NULL REFERENCES Users (user_id),
+    bounty_id			INTEGER		NOT NULL REFERENCES Bounties (bounty_id)
+);
+
 
 CREATE TABLE Products 
 (

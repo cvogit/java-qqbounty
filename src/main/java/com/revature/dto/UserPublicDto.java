@@ -51,7 +51,7 @@ public class UserPublicDto {
 
 	@Override
 	public String toString() {
-		return "UserPublicDto [username=" + username + ", picture=" + picture + ", walletId=" + walletId + ", rating="
+		return "UserPublicDto [username=" + username + ", picture=" + picture + ", walletId=" + walletId +  ", rating="
 				+ rating + "]";
 	}
 	

@@ -2,17 +2,22 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.dto.UserProfileDto;
 import com.revature.dto.UserPublicDto;
 import com.revature.dto.UserUpdateDto;
 import com.revature.models.User;
+import com.revature.models.Wallet;
 import com.revature.repos.UserRepo;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
@@ -101,5 +106,27 @@ public class UserService {
 		if(tUser == null)
 			return null;
 		return ResponseMap.getNewMap("user", new UserPublicDto(tUser));
+	}
+	
+	public Map<String, Object> userInfo(HttpServletRequest req) {
+		//extract user id
+		JwtUtil j = new JwtUtil();
+		int id = j.extractUserId(req);
+		
+		String userData = findById(id).toString();
+		
+		Pattern uPattern = Pattern.compile("walletId=(.*?),");
+		Matcher uMatcher = uPattern.matcher(userData);
+		uMatcher.find();
+		int xWalletId = Integer.parseInt(uMatcher.group(1));
+
+		// find wallet by id
+		Wallet wallet = sWalletService.getOne(xWalletId);
+		int balance = wallet.getBalance();
+		
+		User tUser = sUserRepo.getOne(id);
+		if(tUser == null)
+			return null;
+		return ResponseMap.getNewMap("user", new UserProfileDto(tUser, balance));
 	}
 }

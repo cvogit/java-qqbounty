@@ -6,6 +6,7 @@ import java.util.Set;
 import com.revature.models.Subject;
 
 public class BountyInputDto {
+	private String title;
 	private String description;
 	private int amount;
 	private int timer;
@@ -17,13 +18,23 @@ public class BountyInputDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BountyInputDto(String description, int amount, int timer, String picture, Set<Subject> subject) {
+	public BountyInputDto(String title, String description, int amount, int timer, String picture,
+			Set<Subject> subject) {
 		super();
+		this.title = title;
 		this.description = description;
 		this.amount = amount;
 		this.timer = timer;
 		this.picture = picture;
 		this.subject = subject;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -75,6 +86,7 @@ public class BountyInputDto {
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
 		result = prime * result + timer;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -106,14 +118,21 @@ public class BountyInputDto {
 			return false;
 		if (timer != other.timer)
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "BountyInputDto [description=" + description + ", amount=" + amount + ", timer=" + timer + ", picture="
-				+ picture + ", subject=" + subject + "]";
+		return "BountyInputDto [title=" + title + ", description=" + description + ", amount=" + amount + ", timer="
+				+ timer + ", picture=" + picture + ", subject=" + subject + "]";
 	}
+	
+	
 	
 	
 

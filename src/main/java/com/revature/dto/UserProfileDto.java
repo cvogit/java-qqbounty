@@ -4,6 +4,7 @@ import com.revature.models.User;
 
 public class UserProfileDto {
 	
+	private int userId;
 	private String username;
 	private String email;
 	private String picture;
@@ -13,6 +14,7 @@ public class UserProfileDto {
 
 	public UserProfileDto(User pUser, int balance) {
 		super();
+		this.userId = pUser.getUserId();
 		this.username = pUser.getUsername();
 		this.email = pUser.getEmail();
 		this.picture = pUser.getPicture();
@@ -26,14 +28,24 @@ public class UserProfileDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserProfileDto(String username, String email, String picture, int walletId, int rating, int walletBalance) {
+	public UserProfileDto(int userId, String username, String email, String picture, int walletId, int rating,
+			int walletBalance) {
 		super();
+		this.userId = userId;
 		this.username = username;
 		this.email = email;
 		this.picture = picture;
 		this.walletId = walletId;
 		this.rating = rating;
 		this.walletBalance = walletBalance;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -86,10 +98,11 @@ public class UserProfileDto {
 
 	@Override
 	public String toString() {
-		return "UserProfileDto [username=" + username + ", email=" + email + ", picture=" + picture + ", walletId="
-				+ walletId + ", rating=" + rating + ", walletBalance=" + walletBalance + "]";
+		return "UserProfileDto [userId=" + userId + ", username=" + username + ", email=" + email + ", picture="
+				+ picture + ", walletId=" + walletId + ", rating=" + rating + ", walletBalance=" + walletBalance + "]";
 	}
 
+	
 	
 }
 

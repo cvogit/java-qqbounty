@@ -150,4 +150,12 @@ public class User {
 	public void hashPassword() {
 		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", picture=" + picture + ", rating=" + rating + ", walletId=" + walletId + ", roleId=" + roleId + "]";
+	}
+	
+	
 }

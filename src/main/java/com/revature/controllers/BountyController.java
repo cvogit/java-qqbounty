@@ -309,9 +309,7 @@ public class BountyController {
 	}
 
 	private void updateWallet(int id, int amount) {
-		System.out.println("jere");
 		User userData = us.findUser(id);
-		System.out.println(userData);
 		// extract balance
 		
 		// find wallet by id

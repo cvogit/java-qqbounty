@@ -38,6 +38,7 @@ public class UserController {
 	 */
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> save(@RequestBody User pUser) {
+		System.out.print(pUser.toString());
 		Map<String, Object> tResult = (Map<String, Object>) sUserService.save(pUser);
 		if(tResult == null) {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());

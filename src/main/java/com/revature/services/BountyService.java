@@ -140,10 +140,7 @@ public class BountyService {
 		}
 		Set<Integer> idSet = bountyList.stream().map(Bounty::getUserId).collect(Collectors.toSet());
 		List<Integer> idList = new ArrayList<Integer>(idSet);
-		System.out.println(idList.toString());
 		List<String> usernames = userRepo.findUsernames(idList);
-		System.out.println(usernames.toString());
-
 		Map<Integer, String> map = new LinkedHashMap<Integer, String>(); // ordered
 
 		for (int i = 0; i < idList.size(); i++) {
@@ -178,7 +175,6 @@ public class BountyService {
 	}
 
 	public Bounty getBounty(int bountyId) {
-		System.out.println(bountyId);
 		return bountyRepo.getBounty(bountyId);
 	}
 

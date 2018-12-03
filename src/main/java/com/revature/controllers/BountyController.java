@@ -2,8 +2,12 @@ package com.revature.controllers;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +34,8 @@ import com.revature.dto.AnswerDto;
 import com.revature.dto.BountyInputDto;
 import com.revature.models.Answer;
 import com.revature.models.Bounty;
+import com.revature.models.Subject;
+import com.revature.models.User;
 import com.revature.models.Wallet;
 import com.revature.services.AnswerService;
 import com.revature.services.BountyService;
@@ -37,12 +43,12 @@ import com.revature.services.UserService;
 import com.revature.services.WalletService;
 import com.revature.util.JwtUtil;
 import com.revature.util.ResponseMap;
-import com.revature.util.TsUtil;
 
 @RestController
 @RequestMapping(path = "bounties")
 public class BountyController {
 
+	
 	@Autowired
 	private BountyService bs;
 
@@ -65,7 +71,7 @@ public class BountyController {
 	@PostMapping
 	@JwtVerify
 	public ResponseEntity<Map<String, Object>> save(@RequestBody BountyInputDto bountyInput, HttpServletRequest req) {
-
+		System.out.println(bountyInput);
 		
 		JwtUtil j = new JwtUtil();
 		int userId = j.extractUserId(req);
@@ -88,7 +94,16 @@ public class BountyController {
 			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Not enough money in in wallet :("));
 		}
 		
-		Bounty pBounty = new Bounty(bountyInput,userId);
+		Set<Subject> subjectSet = new HashSet<>();
+		String[] subjects = bountyInput.getSubjects();
+		if (subjects.length != 0){
+			for (int i = 0; i < subjects.length;i++) {
+				Subject subject = bs.getOne(subjects[i]);
+				subjectSet.add(subject);
+			}
+		}
+		Bounty pBounty = new Bounty(bountyInput,userId,subjectSet);
+		
 		
 		wallet.setBalance(wallet.getBalance() - bountyInput.getAmount());
 		ws.update(wallet);
@@ -223,13 +238,13 @@ public class BountyController {
 	}
 
 	@PatchMapping("answers")
-	public ResponseEntity<Map<String, Object>> chooseBestAnswer(@RequestBody String bountyList) {
-		List<String> filterBountyList = Arrays.asList(bountyList.substring(2, bountyList.length() - 2).split(","));
-
-		for (int i = 0; i < filterBountyList.size(); i++) {
-			checkVotesAutomatically(Integer.parseInt(filterBountyList.get(i)));
+	public ResponseEntity<Map<String, Object>> chooseBestAnswer(List<Integer> bountyList) {
+		System.out.println(bountyList);
+		for (int i = 0; i < bountyList.size(); i++) {
+			checkVotesAutomatically(bountyList.get(i));
 		}
 
+		System.out.println("here");
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse("Updated Votes"));
 	}
 
@@ -250,15 +265,15 @@ public class BountyController {
 		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(bResult));
 	}
 	
-	
 	public void checkVotesAutomatically(int bountyId) {
-		Bounty bounty = bs.findById(bountyId);
+		Bounty bounty = bs.getBounty(bountyId);
 		@SuppressWarnings("unchecked")
 		List<AnswerDto> tempList = (List<AnswerDto>) as.findByBountyId(bountyId).get("answers");
 		System.out.println(tempList.size());
 		if (tempList.size() == 0) {
 			bounty.setStatusId(3);
 			int id = bounty.getUserId();
+			bs.update(bounty);
 			updateWallet(id, bounty.getAmount());
 		}else {
 			List<Answer> answers = as.getHighestAnswers(bountyId);
@@ -278,29 +293,29 @@ public class BountyController {
 				bounty.setCorrectAnswerId(answer.getAnswerId()); // Set correct answer to answer id.
 				bounty.setStatusId(2);
 				answer.setStatusId(3);
+				System.out.println("WEHRERERERERE");
 				as.update(answer);
 				bs.update(bounty);
 				int id = answer.getUserId();
 				updateWallet(id, bounty.getAmount());
 			} else {
 				bounty.setStatusId(3);
+				System.out.println("DFDSFDS");
 				int id = bounty.getUserId();
+				bs.update(bounty);
 				updateWallet(id, bounty.getAmount());
 			}
 		}
 	}
 
 	private void updateWallet(int id, int amount) {
-		String userData = us.findById(id).toString();
-
+		System.out.println("jere");
+		User userData = us.findUser(id);
+		System.out.println(userData);
 		// extract balance
-		Pattern uPattern = Pattern.compile("walletId=(.*?),");
-		Matcher uMatcher = uPattern.matcher(userData);
-		uMatcher.find();
-		int xWalletId = Integer.parseInt(uMatcher.group(1));
-
+		
 		// find wallet by id
-		Wallet walletData = ws.getOne(xWalletId);
+		Wallet walletData = ws.findWallet(userData.getWalletId());
 		walletData.setBalance(walletData.getBalance() + amount);
 		ws.update(walletData);
 	}
@@ -318,6 +333,17 @@ public class BountyController {
 				return ResponseEntity.badRequest().body(ResponseMap.getBadResponse());
 			}
 			return ResponseEntity.ok().body(ResponseMap.getGoodResponse(tResult));
+		}
+		
+		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		
+		public void trial() {
+			System.out.println("hi");
+		}
+
+		public void checkBounties() {
+			System.out.println("here");
+			chooseBestAnswer(bs.checkBounties());
 		}
 
 }

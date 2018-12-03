@@ -134,13 +134,28 @@ INSERT INTO bountystatus (bounty_status_id , bounty_status) VALUES(3, 'expired')
 
 INSERT INTO subjects (subject_id , subject) VALUES(1, 'Math');
 INSERT INTO subjects (subject_id , subject) VALUES(2, 'Programming');
+INSERT INTO subjects (subject_id , subject) VALUES(3, 'Art');
+INSERT INTO subjects (subject_id , subject) VALUES(4, 'Biology');
+INSERT INTO subjects (subject_id , subject) VALUES(5, 'Physics');
+INSERT INTO subjects (subject_id , subject) VALUES(6, 'Chemistry');
+INSERT INTO subjects (subject_id , subject) VALUES(7, 'Calculus');
+INSERT INTO subjects (subject_id , subject) VALUES(8, 'Algebra');
+INSERT INTO subjects (subject_id , subject) VALUES(9, 'Java');
+INSERT INTO subjects (subject_id , subject) VALUES(10, 'Python');
+INSERT INTO subjects (subject_id , subject) VALUES(11, 'C');
+INSERT INTO subjects (subject_id , subject) VALUES(12, 'Programming');
+INSERT INTO subjects (subject_id , subject) VALUES(13, 'Python');
+INSERT INTO subjects (subject_id , subject) VALUES(14, 'Life Skills');
+INSERT INTO subjects (subject_id , subject) VALUES(15, 'General Help');
+INSERT INTO subjects (subject_id , subject) VALUES(16, 'Advice');
+INSERT INTO subjects (subject_id , subject) VALUES(17, 'Other');
 
 INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(1, 'submitted');
 INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(2, 'reported');
 INSERT INTO answerstatus (answer_status_id,answer_status ) VALUES(3, 'best');
 
 INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(1, 'Basic', 100, 1);
-INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(2, 'Deluxe', 1100, 10);
-INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(3, 'Wombo Combo', 3000, 20);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(2, 'Special', 1100, 10);
+INSERT INTO products (product_id, product_name, product_credit, product_cost) VALUES(3, 'Deluxe', 2300, 20);
 
 SELECT * FROM BOUNTIES;

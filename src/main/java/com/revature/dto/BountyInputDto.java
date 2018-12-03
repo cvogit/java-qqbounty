@@ -1,5 +1,6 @@
 package com.revature.dto;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ public class BountyInputDto {
 	private int amount;
 	private int timer;
     private String picture;
-	private Set<Subject> subject = new HashSet<>();
+	private String[] subjects;
 	
 	public BountyInputDto() {
 		super();
@@ -19,14 +20,14 @@ public class BountyInputDto {
 	}
 
 	public BountyInputDto(String title, String description, int amount, int timer, String picture,
-			Set<Subject> subject) {
+			String[] subjects) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.amount = amount;
 		this.timer = timer;
 		this.picture = picture;
-		this.subject = subject;
+		this.subjects = subjects;
 	}
 
 	public String getTitle() {
@@ -69,12 +70,12 @@ public class BountyInputDto {
 		this.picture = picture;
 	}
 
-	public Set<Subject> getSubject() {
-		return subject;
+	public String[] getSubjects() {
+		return subjects;
 	}
 
-	public void setSubject(Set<Subject> subject) {
-		this.subject = subject;
+	public void setSubjects(String[] subjects) {
+		this.subjects = subjects;
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class BountyInputDto {
 		result = prime * result + amount;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+		result = prime * result + Arrays.hashCode(subjects);
 		result = prime * result + timer;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
@@ -111,10 +112,7 @@ public class BountyInputDto {
 				return false;
 		} else if (!picture.equals(other.picture))
 			return false;
-		if (subject == null) {
-			if (other.subject != null)
-				return false;
-		} else if (!subject.equals(other.subject))
+		if (!Arrays.equals(subjects, other.subjects))
 			return false;
 		if (timer != other.timer)
 			return false;
@@ -129,7 +127,7 @@ public class BountyInputDto {
 	@Override
 	public String toString() {
 		return "BountyInputDto [title=" + title + ", description=" + description + ", amount=" + amount + ", timer="
-				+ timer + ", picture=" + picture + ", subject=" + subject + "]";
+				+ timer + ", picture=" + picture + ", subjects=" + Arrays.toString(subjects) + "]";
 	}
 	
 	

@@ -58,6 +58,16 @@ public class UserService {
 			return null;
 		return ResponseMap.getNewMap("user_list", new UserPublicDto(tUser));
 	}
+	
+	
+	/**
+	 * Return a user or null
+	 * @return Map<String, Object>, null
+	 */
+	public User findUser(int pId) {
+		return sUserRepo.findUser(pId);
+	}
+	
 
 	/**
 	 * Save a user and return the user or null if unable to save

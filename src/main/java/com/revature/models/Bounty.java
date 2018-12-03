@@ -62,7 +62,7 @@ public class Bounty {
 	
 	private int userId;
 	
-	 @ManyToMany(fetch = FetchType.LAZY,
+	 @ManyToMany(fetch = FetchType.EAGER,
 	            cascade = {
 	           
 	                CascadeType.MERGE
@@ -94,7 +94,7 @@ public class Bounty {
 		this.subject = subject;
 	}
 	
-	public Bounty(BountyInputDto inputBounty, int userId) {
+	public Bounty(BountyInputDto inputBounty, int userId, Set<Subject> subject) {
 		super();
 		this.bountyId = bountyId;
 		this.title = inputBounty.getTitle();
@@ -107,7 +107,7 @@ public class Bounty {
 		this.correctAnswerId = null;
 		this.picture = inputBounty.getPicture();
 		this.userId = userId;
-		this.subject = inputBounty.getSubject();
+		this.subject = subject;
 	}
 	
 	public int getBountyId() {

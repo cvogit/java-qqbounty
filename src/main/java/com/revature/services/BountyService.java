@@ -15,10 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.revature.dto.BountyDto;
-import com.revature.models.Answer;
-import com.revature.models.AnswerVote;
 import com.revature.models.Bounty;
 import com.revature.models.BountyVote;
+import com.revature.models.Subject;
 import com.revature.models.User;
 import com.revature.repos.BountyRepo;
 import com.revature.repos.SubjectRepo;
@@ -38,6 +37,7 @@ public class BountyService {
 
 	@Autowired
 	private UserRepo userRepo;
+
 
 	@Autowired
 	private SubjectToBountyRepo subjectToBountyRepo;
@@ -114,10 +114,13 @@ public class BountyService {
 	public Map<String, Object> update(Bounty bounty) {
 		return ResponseMap.getNewMap("bounty", getBountyDto(bountyRepo.save(bounty)));
 	}
-	
 
 	// Helper Methods for other Controllers/Services
-
+	public Subject getOne(String subject) {
+		return subjectRepo.getSubject(subject);
+	}
+	
+	
 	public Bounty findById(int id) {
 		return bountyRepo.getOne(id);
 	}
@@ -127,7 +130,7 @@ public class BountyService {
 			return null;
 		}
 		Integer id = bounty.getUserId();
-		User username = userRepo.getOne(id);
+		User username = userRepo.findUser(id);
 		return new BountyDto(bounty, username.getUsername());
 	}
 
@@ -168,6 +171,15 @@ public class BountyService {
 	
 	public Map<String, Object> findUserBounties(Pageable pageable, int id) {
 		return ResponseMap.getNewMap("bounty_list", getBountyDto(bountyRepo.findUserBounties(pageable, id), pageable));
+	}
+
+	public List<Integer> checkBounties() {
+		return bountyRepo.checkBounties(TsUtil.stampIt());
+	}
+
+	public Bounty getBounty(int bountyId) {
+		System.out.println(bountyId);
+		return bountyRepo.getBounty(bountyId);
 	}
 
 

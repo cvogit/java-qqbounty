@@ -41,6 +41,10 @@ public class WalletService {
 	public Wallet getOne(int id) {
 		return sWalletRepo.getOne(id);
 	}
+
+	public Wallet findWallet(int walletId) {
+		return sWalletRepo.findWallet(walletId);
+	}
 	
 	
 }
